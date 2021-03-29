@@ -2,6 +2,9 @@ import { Sequelize } from 'sequelize';
 import url from 'url';
 import allConfig from '../config/config.js';
 
+import initGameModel from './game.mjs';
+import initUserModel from './user.mjs';
+
 const env = process.env.NODE_ENV || 'development';
 const config = allConfig[env];
 const db = {};
@@ -27,6 +30,12 @@ if (env === 'production') {
 else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
+
+db.User = initUserModel(sequelize, Sequelize.DataTypes);
+db.Game = initGameModel(sequelize, Sequelize.DataTypes);
+
+db.User.belongsToMany(db.Game, { through: 'game_users' });
+db.Game.belongsToMany(db.User, { through: 'game_users' });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
