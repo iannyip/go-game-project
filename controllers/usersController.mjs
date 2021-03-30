@@ -18,7 +18,18 @@ export default function initUsersController(db) {
 
   const login = async (request, response) => {
     console.log(request.body);
-    response.send("yy");
+    try {
+      const authedUser = await db.User.findOne({ where: request.body });
+      console.log(authedUser);
+      if (authedUser === null) {
+        response.send("invalid user");
+      } else {
+        response.cookie("userId", authedUser.id);
+        response.send("valid user");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return {

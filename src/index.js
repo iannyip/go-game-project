@@ -1,4 +1,5 @@
 import "./styles.scss";
+import axios from "axios";
 
 console.log("helloooo");
 
@@ -7,6 +8,7 @@ mainContainer.classList.add("container");
 document.body.appendChild(mainContainer);
 
 const loginContainer = document.createElement("div");
+const loginCol = document.createElement("div");
 const loginName = document.createElement("input");
 const loginPassword = document.createElement("input");
 const loginBtn = document.createElement("button");
@@ -16,7 +18,12 @@ const authUserLogin = () => {
     name: document.getElementById("Username").value,
     password: document.getElementById("Password").value,
   };
-  axios.post("/login", userInfo);
+  axios
+    .post("/login", userInfo)
+    .then((result) => {
+      console.log(result.data);
+    })
+    .catch((error) => console.log(error));
 };
 
 const renderLoginView = () => {
@@ -32,10 +39,12 @@ const renderLoginView = () => {
   [loginName, loginPassword, loginBtn].forEach((element) => {
     element.id = element.placeholder || element.innerText;
     element.classList.add("form-control", "my-4");
-    loginContainer.appendChild(element);
+    loginCol.appendChild(element);
   });
 
-  loginContainer.classList.add("");
+  loginContainer.classList.add("row", "justify-content-center", "my-4");
+  loginCol.classList.add("col-md-6");
+  loginContainer.appendChild(loginCol);
   mainContainer.appendChild(loginContainer);
 };
 
