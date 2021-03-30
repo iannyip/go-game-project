@@ -2,6 +2,11 @@ let currentGame = null;
 
 import "./styles.scss";
 import axios from "axios";
+import go from "go-game";
+
+const game = new go(3);
+game.playerTurn(go.BLACK, [0, 1]);
+console.log(game.printField());
 
 console.log("helloooo");
 
@@ -23,6 +28,9 @@ const newGameClick = () => {
     .post("/newGame")
     .then((result) => {
       console.log(result);
+      currentGame = result.data.game;
+      let newGoObj = new go(JSON.stringify(currentGame));
+      console.log(newGoObj.printField());
     })
     .catch((error) => {
       console.log(error);

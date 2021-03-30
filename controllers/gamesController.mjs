@@ -1,8 +1,19 @@
-// db is an argument to this function so
-
 import { response } from "express";
 
-// that we can make db queries inside
+// Helper functions
+const makeBlankBoard = (boardLength) => {
+  let array = [];
+  for (let i = 0; i < boardLength; i += 1) {
+    let subArray = [];
+    for (let j = 0; j < boardLength; j += 1) {
+      subArray.push(-1);
+    }
+    array.push(subArray);
+  }
+  return array;
+};
+
+// Controllers
 export default function initGamesController(db) {
   const index = (request, response) => {};
 
@@ -12,7 +23,14 @@ export default function initGamesController(db) {
         white: 1,
         black: 0,
       };
-      const moves = [];
+      const moves = [
+        {
+          player: null,
+          field: makeBlankBoard(5),
+          score: null,
+          cord: null,
+        },
+      ];
       const score = { 0: 0, 1: 0 };
       const newGame = {
         gameState: {
