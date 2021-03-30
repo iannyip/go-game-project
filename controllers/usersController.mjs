@@ -8,9 +8,15 @@ export default function initUsersController(db) {
   const index = async (request, response) => {
     try {
       const users = await db.User.findAll();
+      let userArr = [];
       users.forEach((user) => {
-        console.log(`${user.id}: ${user.name}`);
+        userArr.push({
+          id: user.id,
+          name: user.name,
+        });
       });
+      console.log(userArr);
+      response.send(userArr);
     } catch (error) {
       console.log(error);
     }
