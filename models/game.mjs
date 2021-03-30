@@ -1,6 +1,6 @@
 export default function initGameModel(sequelize, DataTypes) {
   return sequelize.define(
-    'game',
+    "game",
     {
       id: {
         allowNull: false,
@@ -8,7 +8,8 @@ export default function initGameModel(sequelize, DataTypes) {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      game_state: {
+      gameState: {
+        allowNull: false,
         type: DataTypes.JSON,
       },
       createdAt: {
@@ -20,9 +21,6 @@ export default function initGameModel(sequelize, DataTypes) {
         type: DataTypes.DATE,
       },
     },
-    {
-      // The underscored option makes Sequelize reference snake_case names in the DB.
-      underscored: true,
-    },
+    { underscored: true }
   );
 }

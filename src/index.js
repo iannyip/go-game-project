@@ -1,3 +1,5 @@
+let currentGame = null;
+
 import "./styles.scss";
 import axios from "axios";
 
@@ -13,6 +15,28 @@ const loginName = document.createElement("input");
 const loginPassword = document.createElement("input");
 const loginBtn = document.createElement("button");
 
+const dashboardContainer = document.createElement("div");
+const newGameBtn = document.createElement("button");
+
+const newGameClick = () => {
+  axios
+    .post("/newGame")
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+const renderUserDashboard = () => {
+  mainContainer.innerHTML = "";
+  newGameBtn.classList.add("btn", "btn-primary");
+  newGameBtn.innerText = "Create new game";
+  newGameBtn.addEventListener("click", newGameClick);
+  mainContainer.appendChild(newGameBtn);
+};
+
 const authUserLogin = () => {
   const userInfo = {
     name: document.getElementById("Username").value,
@@ -22,6 +46,11 @@ const authUserLogin = () => {
     .post("/login", userInfo)
     .then((result) => {
       console.log(result.data);
+      if (result.data == "valid user") {
+        renderUserDashboard();
+      } else {
+        renderLoginView();
+      }
     })
     .catch((error) => console.log(error));
 };
