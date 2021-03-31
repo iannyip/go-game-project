@@ -8,12 +8,17 @@ export default function initUsersController(db) {
   const index = async (request, response) => {
     try {
       const users = await db.User.findAll();
+      const { userId } = request.cookies;
+      console.log(userId);
       let userArr = [];
       users.forEach((user) => {
-        userArr.push({
-          id: user.id,
-          name: user.name,
-        });
+        if (Number(user.id) !== Number(userId)) {
+          console.log(`${user.id} is not ${userId}`);
+          userArr.push({
+            id: user.id,
+            name: user.name,
+          });
+        }
       });
       console.log(userArr);
       response.send(userArr);
