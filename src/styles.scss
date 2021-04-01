@@ -1,11 +1,16 @@
+// Variables
+$number-of-boxes: 9;
+$border-thickness: 4px;
+$box-len: 50px;
+
 body {
   background-color: pink;
 }
 
 .grid-display {
   display: grid;
-  grid-template-columns: repeat(5, 100px);
-  grid-template-rows: repeat(5, 100px);
+  grid-template-columns: repeat($number-of-boxes, $box-len);
+  grid-template-rows: repeat($number-of-boxes, $box-len);
 }
 
 .cell {
@@ -21,58 +26,58 @@ body {
 .v-f::before {
   background: black;
   content: "";
-  height: 100px;
-  width: 4px;
+  height: $box-len;
+  width: $border-thickness;
   position: absolute;
   top: 0px;
-  left: 48px;
+  left: ($box-len - $border-thickness) / 2;
 }
 
 .v-t::before {
   background: black;
   content: "";
-  height: 50px;
-  width: 4px;
+  height: $box-len / 2;
+  width: $border-thickness;
   position: absolute;
   top: 0px;
-  left: 48px;
+  left: ($box-len - $border-thickness) / 2;
 }
 .v-b::before {
   background: black;
   content: "";
-  height: 50px;
-  width: 4px;
+  height: $box-len / 2;
+  width: $border-thickness;
   position: absolute;
-  top: 50px;
-  left: 48px;
+  top: $box-len / 2;
+  left: ($box-len - $border-thickness) / 2;
 }
 
 .h-f::after {
   background: black;
   content: "";
-  height: 4px;
+  height: $border-thickness;
   left: 0px;
   position: absolute;
-  top: 48px;
-  width: 100px;
+  top: ($box-len - $border-thickness) / 2;
+  width: $box-len;
 }
 
 .h-l::after {
   background: black;
   content: "";
-  height: 4px;
+  height: $border-thickness;
   left: 0px;
   position: absolute;
-  top: 48px;
-  width: 50px;
+  top: ($box-len - $border-thickness) / 2;
+  width: $box-len / 2;
 }
 
 .h-r::after {
   background: black;
   content: "";
-  height: 4px;
-  left: 50px;
+  height: $border-thickness;
+  left: $box-len / 2;
   position: absolute;
-  top: 48px;
-  width: 50px;
+  top: ($box-len - $border-thickness) / 2;
+  width: $box-len / 2;
 }
