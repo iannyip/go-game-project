@@ -19,6 +19,7 @@ export default function initGamesController(db) {
 
   const create = async (request, response) => {
     try {
+      console.log(request.body);
       const players = {
         white: 1,
         black: 0,
@@ -26,7 +27,7 @@ export default function initGamesController(db) {
       const moves = [
         {
           player: null,
-          field: makeBlankBoard(5),
+          field: makeBlankBoard(Number(request.body.board)),
           score: null,
           cord: null,
         },

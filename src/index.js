@@ -26,9 +26,19 @@ const loginBtn = document.createElement("button");
 const dashboardContainer = document.createElement("div");
 const newGameBtn = document.createElement("button");
 
+const renderBoard = () => {
+  mainContainer.innerHTML = "";
+  // RENDER BOARD HERE
+};
+
 const newGameClick = () => {
+  const newGameInfo = {
+    opponent: document.getElementById("opponentInput").value,
+    board: document.getElementById("boardSizeInput").value,
+  };
+  console.log(newGameInfo);
   axios
-    .post("/newGame")
+    .post("/newGame", newGameInfo)
     .then((result) => {
       console.log(result);
       currentGame = result.data.game;
@@ -48,14 +58,25 @@ const NewGameModal = () => {
   const modalBodyDiv = document.createElement("div");
   const modalFooterDiv = document.createElement("div");
   const words = document.createElement("p");
+  const boardSelectText = document.createElement("p");
   const modalCloseBtn = document.createElement("button");
   const modalSubmit = document.createElement("button");
   const opponentInput = document.createElement("input");
-  const boardSizeInput = document.createElement("input");
+  const boardSizeInput = document.createElement("select");
   const userDataList = document.createElement("datalist");
   // MODIFY BOARDSIZEINPUT VARIABLE TO ALLOW USER TO SET BOARD SIZE
+  // const boardSelect = document.createElement("select");
+  const boardSize = [5, 9, 13, 17, 19, 21];
+
+  boardSize.forEach((board) => {
+    const element = document.createElement("option");
+    element.value = board;
+    element.innerText = `${board} x ${board}`;
+    boardSizeInput.appendChild(element);
+  });
 
   words.innerText = "Choose your opponent";
+  boardSelectText.innerText = "Select your board size";
   modalSubmit.innerText = "Create Game!";
 
   modalDiv.setAttribute("tabindex", "-1");
@@ -70,9 +91,12 @@ const NewGameModal = () => {
   modalCloseBtn.setAttribute("data-bs-dismiss", "modal");
   modalSubmit.classList.add("btn", "btn-primary");
   opponentInput.classList.add("form-control");
-  boardSizeInput.classList.add("form-control");
+  // boardSizeInput.classList.add("form-control");
+  boardSizeInput.classList.add("form-select");
   opponentInput.setAttribute("list", "dataListOptions");
   userDataList.id = "dataListOptions";
+  opponentInput.id = "opponentInput";
+  boardSizeInput.id = "boardSizeInput";
 
   axios
     .get("/users")
@@ -101,6 +125,8 @@ const NewGameModal = () => {
   modalBodyDiv.appendChild(words);
   modalBodyDiv.appendChild(opponentInput);
   modalBodyDiv.appendChild(userDataList);
+  modalBodyDiv.appendChild(boardSelectText);
+  modalBodyDiv.appendChild(boardSizeInput);
   document.body.appendChild(modalDiv);
 };
 
