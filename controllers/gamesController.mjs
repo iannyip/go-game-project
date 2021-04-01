@@ -19,7 +19,17 @@ export default function initGamesController(db) {
 
   const create = async (request, response) => {
     try {
+      const { userId } = request.cookies;
       console.log(request.body);
+      const opponentId = await db.User.findOne({
+        where: {
+          name: request.body.opponent,
+        },
+      });
+      const users = {
+        white: opponentId.id,
+        black: Number(userId),
+      };
       const players = {
         white: 1,
         black: 0,
@@ -35,6 +45,7 @@ export default function initGamesController(db) {
       const score = { 0: 0, 1: 0 };
       const newGame = {
         gameState: {
+          users,
           players,
           moves,
           score,

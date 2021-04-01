@@ -7,6 +7,22 @@ import "./styles.scss";
 import axios from "axios";
 import go from "go-game";
 
+const getCookie = (cname) => {
+  const name = cname + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const ca = decodedCookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == " ") {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+};
+
 const game = new go(3);
 game.playerTurn(go.BLACK, [0, 1]);
 console.log(game.printField());
@@ -26,9 +42,34 @@ const loginBtn = document.createElement("button");
 const dashboardContainer = document.createElement("div");
 const newGameBtn = document.createElement("button");
 
-const renderBoard = () => {
+const renderBoard = (boardArr) => {
   mainContainer.innerHTML = "";
-  // RENDER BOARD HERE
+  const boardGrid = document.createElement("div");
+  boardGrid.classList.add("grid-display");
+  const boardLen = boardArr.length;
+  console.log(boardLen);
+  for (let i = 0; i < boardLen; i += 1) {
+    for (let j = 0; j < boardLen; j += 1) {
+      const box = document.createElement("div");
+      boardGrid.appendChild(box);
+      box.classList.add("cell");
+      if (i === 0) {
+        box.classList.add("v-b");
+      } else if (i === boardLen - 1) {
+        box.classList.add("v-t");
+      } else {
+        box.classList.add("v-f");
+      }
+      if (j === 0) {
+        box.classList.add("h-r");
+      } else if (j === boardLen - 1) {
+        box.classList.add("h-l");
+      } else {
+        box.classList.add("h-f");
+      }
+    }
+  }
+  mainContainer.appendChild(boardGrid);
 };
 
 const newGameClick = () => {
@@ -42,8 +83,13 @@ const newGameClick = () => {
     .then((result) => {
       console.log(result);
       currentGame = result.data.game;
+      console.log(currentGame);
       let newGoObj = new go(JSON.stringify(currentGame));
+      console.log("#####");
+      console.log(newGoObj);
+      console.log(newGoObj.field);
       console.log(newGoObj.printField());
+      renderBoard(newGoObj.field);
     })
     .catch((error) => {
       console.log(error);
@@ -57,8 +103,8 @@ const NewGameModal = () => {
   const modalHeaderDiv = document.createElement("div");
   const modalBodyDiv = document.createElement("div");
   const modalFooterDiv = document.createElement("div");
-  const words = document.createElement("p");
-  const boardSelectText = document.createElement("p");
+  const words = document.createElement("label");
+  const boardSelectText = document.createElement("label");
   const modalCloseBtn = document.createElement("button");
   const modalSubmit = document.createElement("button");
   const opponentInput = document.createElement("input");
@@ -90,6 +136,8 @@ const NewGameModal = () => {
   modalCloseBtn.classList.add("btn-close");
   modalCloseBtn.setAttribute("data-bs-dismiss", "modal");
   modalSubmit.classList.add("btn", "btn-primary");
+  words.classList.add("form-label");
+  boardSelectText.classList.add("form-label");
   opponentInput.classList.add("form-control");
   // boardSizeInput.classList.add("form-control");
   boardSizeInput.classList.add("form-select");
@@ -105,6 +153,7 @@ const NewGameModal = () => {
       const usersArr = result.data;
       usersArr.forEach((user) => {
         const optionEle = document.createElement("option");
+        // optionEle.value = user.id;
         optionEle.value = user.name;
         userDataList.appendChild(optionEle);
       });

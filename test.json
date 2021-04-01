@@ -1,5 +1,8 @@
 {
-  "players": { "white": 1, "black": 0 },
+  "players": {
+    "white": 1,
+    "black": 0
+  },
   "moves": [
     {
       "player": 0,
