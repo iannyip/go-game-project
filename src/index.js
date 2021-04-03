@@ -31,26 +31,40 @@ console.log(game.printField());
 
 console.log("helloooo");
 
-// const mainContainer = document.createElement("div");
-// mainContainer.id = "mainContainer";
+// Get Main Container Element
 const mainContainer = document.getElementById("mainContainer");
 mainContainer.classList.add("container");
-// document.body.appendChild(mainContainer);
 
+// Login View Elements
 const loginContainer = document.createElement("div");
 const loginCol = document.createElement("div");
 const loginName = document.createElement("input");
 const loginPassword = document.createElement("input");
 const loginBtn = document.createElement("button");
 
+// Dashboard View Elements
 const dashboardContainer = document.createElement("div");
+dashboardContainer.id = "dashboardContainer";
+const sidebar = document.createElement("div");
+const rightContent = document.createElement("div");
+const sidebarHeader = document.createElement("div");
+const sidebarList = document.createElement("ul");
+sidebarHeader.innerText = "Play GO!";
+dashboardContainer.classList.add("wrapper");
+sidebarList.classList.add("list-unstyled", "components");
+sidebar.id = "sidebar";
+rightContent.id = "content";
+
 const newGameBtn = document.createElement("button");
 
+// Game View Elements
 const gameViewContainer = document.createElement("div");
 const boardContainer = document.createElement("div");
 const gameInfoContainer = document.createElement("div");
 const backToDashboardBtn = document.createElement("button");
+const refreshGameBtn = document.createElement("button");
 
+// GAME PLAY FUNCTIONS
 const placePiece = (i, j) => {
   console.log(`coordinates: ${i}, ${j}`);
   console.log(`current game id: ${currentGame.id}`);
@@ -118,27 +132,42 @@ const renderBoard = (boardArr) => {
 };
 
 const renderGameView = () => {
+  // 1. Clear the screen
   mainContainer.innerHTML = "";
+  dashboardContainer.remove();
+
+  // 2. Get the game object from variable <currentGame>
   console.log(currentGame.game);
   let newGoObj = new go(JSON.stringify(currentGame.game));
   console.log("#######################");
   console.log(newGoObj.printField());
   renderBoard(newGoObj.field);
 
+  // 3. Make the page view outline
   gameViewContainer.classList.add("row");
   [boardContainer, gameInfoContainer].forEach((element) => {
     element.classList.add("col");
     gameViewContainer.appendChild(element);
   });
-  backToDashboardBtn.classList.add("btn", "btn-primary");
+  [backToDashboardBtn, refreshGameBtn].forEach((button) => {
+    button.classList.add("btn", "btn-primary");
+  });
+  refreshGameBtn.innerText = "Refresh Game";
   backToDashboardBtn.innerText = "Back to Home";
+  // 4. Add the buttons
   backToDashboardBtn.addEventListener("click", () => {
     renderUserDashboard();
   });
+  refreshGameBtn.addEventListener("click", () => {
+    renderGameView();
+  });
+
   gameInfoContainer.appendChild(backToDashboardBtn);
+  gameInfoContainer.appendChild(refreshGameBtn);
   mainContainer.appendChild(gameViewContainer);
 };
 
+// DASHBOARD FUNCTIONS
 const newGameClick = () => {
   const newGameInfo = {
     opponent: document.getElementById("opponentInput").value,
@@ -244,18 +273,41 @@ const NewGameModal = () => {
 };
 
 const renderUserDashboard = () => {
+  // 1. Clear the view
   mainContainer.innerHTML = "";
+
+  // 2. Add newGameBtn
   newGameBtn.classList.add("btn", "btn-primary");
   newGameBtn.innerText = "Create new game";
 
-  // document.body.appendChild(newGameBtn);
+  // 3. Create modal (to create new game) and assign to newGameBtn
   newGameBtn.setAttribute("data-bs-toggle", "modal");
   newGameBtn.setAttribute("data-bs-target", "#newGameModal");
-  // newGameBtn.addEventListener("click", newGameClick);
   NewGameModal();
-  mainContainer.appendChild(newGameBtn);
+  // mainContainer.appendChild(newGameBtn);
+  rightContent.appendChild(newGameBtn);
+
+  // 4. Get the list of all ongoing games
+
+  // Sidebar list
+  const sidebarItems = ["User", "Games", "Win", "Lose"];
+  sidebarItems.forEach((item) => {
+    const itemElement = document.createElement("li");
+    itemElement.id = item;
+    itemElement.innerText = item;
+    itemElement.classList.add();
+    sidebarList.appendChild(itemElement);
+  });
+
+  // Create the dashboard layout
+  dashboardContainer.appendChild(sidebar);
+  dashboardContainer.appendChild(rightContent);
+  sidebar.appendChild(sidebarHeader);
+  sidebar.appendChild(sidebarList);
+  document.body.appendChild(dashboardContainer);
 };
 
+// LOGIN FUNCTIONS
 const authUserLogin = () => {
   const userInfo = {
     name: document.getElementById("Username").value,

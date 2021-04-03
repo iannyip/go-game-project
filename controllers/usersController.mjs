@@ -16,10 +16,9 @@ export default function initUsersController(db) {
       const users = await db.User.findAll();
       const { userId } = request.cookies;
       console.log(userId);
-      let userArr = [];
+      const userArr = [];
       users.forEach((user) => {
         if (Number(user.id) !== Number(userId)) {
-          console.log(`${user.id} is not ${userId}`);
           userArr.push({
             id: user.id,
             name: user.name,

@@ -88,3 +88,45 @@ body {
   top: ($box-len - $border-thickness) / 2;
   width: $box-len / 2;
 }
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: stretch;
+}
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  min-height: 100vh;
+  background: #7386d5;
+  color: #fff;
+}
+
+#content {
+}
+
+#sidebar .sidebar-header {
+  padding: 20px;
+  background: #6d7fcc;
+}
+#sidebar ul.components {
+  padding: 20px 0;
+  border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul li {
+  padding: 10px;
+  font-size: 1.1em;
+  display: block;
+}
+
+@media (max-width: 576px) {
+  .wrapper {
+    flex-direction: row;
+  }
+  #sidebar {
+    min-width: 100vw;
+  }
+}
