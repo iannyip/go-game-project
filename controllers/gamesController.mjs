@@ -26,12 +26,6 @@ export default function initGamesController(db) {
           name: request.body.opponent,
         },
       });
-      const users = {
-        // `${opponentId.id}`: 1,
-        // `${Number(userId)}`: 0,
-        white: opponentId.id,
-        black: Number(userId),
-      };
       const players = {
         white: 1,
         black: 0,
@@ -47,7 +41,6 @@ export default function initGamesController(db) {
       const score = { 0: 0, 1: 0 };
       const newGame = {
         gameState: {
-          users,
           players,
           moves,
           score,
@@ -55,13 +48,13 @@ export default function initGamesController(db) {
       };
       const createdGame = await db.Game.create(newGame);
       // TO FIX
-      const blackPlayer = await db.Game.createGameUser({
+      const blackPlayer = await createdGame.createGameUser({
         userId: Number(userId),
-        colour: "black",
+        colour: 0,
       });
-      const whitePlayer = await db.Game.createGameUser({
+      const whitePlayer = await createdGame.createGameUser({
         userId: opponentId.id,
-        colour: "white",
+        colour: 1,
       });
       response.send({
         id: createdGame.id,
