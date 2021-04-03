@@ -50,7 +50,20 @@ const placePiece = (i, j) => {
     col: j,
     gameId: currentGame.id,
   };
-  axios.post("/placepiece", newCoord);
+  axios
+    .post("/placepiece", newCoord)
+    .then((result) => {
+      console.log("piece placed successfully");
+      currentGame = result.data;
+      console.log(currentGame.game);
+      let newGoObj = new go(JSON.stringify(currentGame.game));
+      console.log("#######################");
+      console.log(newGoObj.printField());
+      renderBoard(newGoObj.field);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 const renderBoard = (boardArr) => {
@@ -62,11 +75,13 @@ const renderBoard = (boardArr) => {
   for (let i = 0; i < boardLen; i += 1) {
     for (let j = 0; j < boardLen; j += 1) {
       const box = document.createElement("div");
+      const piece = document.createElement("div");
       boardGrid.appendChild(box);
       box.addEventListener("click", () => {
         placePiece(i, j);
       });
       box.classList.add("cell");
+      piece.classList.add("piece");
       if (i === 0) {
         box.classList.add("v-b");
       } else if (i === boardLen - 1) {
@@ -80,6 +95,13 @@ const renderBoard = (boardArr) => {
         box.classList.add("h-l");
       } else {
         box.classList.add("h-f");
+      }
+      if (boardArr[i][j] === 1) {
+        piece.innerText = "⚫";
+        box.appendChild(piece);
+      } else if (boardArr[i][j] === 0) {
+        piece.innerText = "⚪";
+        box.appendChild(piece);
       }
     }
   }
@@ -95,13 +117,11 @@ const newGameClick = () => {
   axios
     .post("/newGame", newGameInfo)
     .then((result) => {
-      console.log(result);
+      console.log("new game posted successfully");
       currentGame = result.data;
       console.log(currentGame.game);
       let newGoObj = new go(JSON.stringify(currentGame.game));
-      console.log("#####");
-      console.log(newGoObj);
-      console.log(newGoObj.field);
+      console.log("#######################");
       console.log(newGoObj.printField());
       renderBoard(newGoObj.field);
     })

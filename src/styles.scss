@@ -18,9 +18,16 @@ body {
   /* height: 100px; */
   position: relative;
   /* width: 100px; */
-  display: inline-block;
+  display: flex;
   margin: 0px;
   padding: 0px;
+  align-items: center;
+  justify-content: center;
+}
+
+.piece {
+  font-size: 3rem;
+  z-index: 1;
 }
 
 .v-f::before {

@@ -1,3 +1,5 @@
+// const { json } = require("sequelize/types");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const userList = [
@@ -21,6 +23,13 @@ module.exports = {
       },
     ];
     await queryInterface.bulkInsert("users", userList);
+    // const initialGame = {
+    //   players: { white: 1, black: 0 },
+    //   moves: [],
+    //   score: { 0: 0, 1: 0 },
+    // };
+    // const stringified = JSON.stringify(initialGame);
+    // console.log(stringified);
 
     const gameList = [
       {
