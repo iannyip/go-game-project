@@ -27,6 +27,8 @@ export default function initGamesController(db) {
         },
       });
       const users = {
+        // `${opponentId.id}`: 1,
+        // `${Number(userId)}`: 0,
         white: opponentId.id,
         black: Number(userId),
       };
@@ -52,20 +54,66 @@ export default function initGamesController(db) {
         },
       };
       const createdGame = await db.Game.create(newGame);
+      // TO FIX
+      const blackPlayer = await db.Game.createGameUser({
+        userId: Number(userId),
+        colour: "black",
+      });
+      const whitePlayer = await db.Game.createGameUser({
+        userId: opponentId.id,
+        colour: "white",
+      });
       response.send({
+        id: createdGame.id,
         game: createdGame.gameState,
       });
     } catch (error) {
       console.log(error);
     }
   };
-  const test = async () => {
+  const test = async (request, response) => {
     try {
-      const games = await db.Game.findAll();
-      console.log(games);
+      const newGame = await db.Game.create({
+        gameState: "{}",
+      });
+      console.log(newGame.id);
+      const player1 = await newGame.createGameUser({
+        userId: 1,
+        colour: 0,
+      });
+      console.log(player1);
+      // const games = await db.Game.findOne({
+      //   where: { id: 1 },
+      //   // include: db.GameUser,
+      // });
+      // const whitePlayer = await games.getGameUsers({ where: { colour: 1 } });
+      // // console.log(games.gameUsers);
+      // // games.gameUsers.forEach((user) => {
+      // // console.log(`${user.id}: ${user.colour}`);
+      // // });
+      // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+      // console.log(whitePlayer);
+      // console.log(`${whitePlayer[0].id}: ${whitePlayer[0].colour}`);
+      // // players.forEach((player) => {
+      // //   console.log(`${player.id}: ${player.colour}`);
+      // // });
+      response.send("yay");
     } catch (error) {
       console.log(error);
     }
+  };
+  const update = async (request, response) => {
+    const { userId } = request.cookies;
+    console.log(`${userId}'s move:`);
+    console.log(request.body);
+    const updatedGame = await db.Game.findOne({
+      where: {
+        id: request.body.gameId,
+      },
+    });
+    console.log(`The game is: `);
+    console.log(updatedGame);
+    response.send(`received`);
   };
 
   // return all methods we define in an object
@@ -74,5 +122,6 @@ export default function initGamesController(db) {
     index,
     create,
     test,
+    update,
   };
 }

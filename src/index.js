@@ -42,6 +42,17 @@ const loginBtn = document.createElement("button");
 const dashboardContainer = document.createElement("div");
 const newGameBtn = document.createElement("button");
 
+const placePiece = (i, j) => {
+  console.log(`coordinates: ${i}, ${j}`);
+  console.log(`current game id: ${currentGame.id}`);
+  const newCoord = {
+    row: i,
+    col: j,
+    gameId: currentGame.id,
+  };
+  axios.post("/placepiece", newCoord);
+};
+
 const renderBoard = (boardArr) => {
   mainContainer.innerHTML = "";
   const boardGrid = document.createElement("div");
@@ -52,6 +63,9 @@ const renderBoard = (boardArr) => {
     for (let j = 0; j < boardLen; j += 1) {
       const box = document.createElement("div");
       boardGrid.appendChild(box);
+      box.addEventListener("click", () => {
+        placePiece(i, j);
+      });
       box.classList.add("cell");
       if (i === 0) {
         box.classList.add("v-b");
@@ -82,9 +96,9 @@ const newGameClick = () => {
     .post("/newGame", newGameInfo)
     .then((result) => {
       console.log(result);
-      currentGame = result.data.game;
-      console.log(currentGame);
-      let newGoObj = new go(JSON.stringify(currentGame));
+      currentGame = result.data;
+      console.log(currentGame.game);
+      let newGoObj = new go(JSON.stringify(currentGame.game));
       console.log("#####");
       console.log(newGoObj);
       console.log(newGoObj.field);

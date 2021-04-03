@@ -23,4 +23,5 @@ export default function bindRoutes(app) {
 
   app.post("/newGame", GameController.create);
   app.get("/testGame", GameController.test);
+  app.post("/placepiece", GameController.update);
 }
