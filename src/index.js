@@ -1,11 +1,13 @@
+import "./styles.scss";
+import axios from "axios";
+import go from "go-game";
+import loginModules from "./loginModule";
+
+const loginModule = loginModules();
 let currentGame = null;
 
 // var myModal = new bootstrap.Modal(document.getElementById("myModal"), options);
 // document.body.append(myModal);
-
-import "./styles.scss";
-import axios from "axios";
-import go from "go-game";
 
 const getCookie = (cname) => {
   const name = cname + "=";
@@ -29,9 +31,11 @@ console.log(game.printField());
 
 console.log("helloooo");
 
-const mainContainer = document.createElement("div");
+// const mainContainer = document.createElement("div");
+// mainContainer.id = "mainContainer";
+const mainContainer = document.getElementById("mainContainer");
 mainContainer.classList.add("container");
-document.body.appendChild(mainContainer);
+// document.body.appendChild(mainContainer);
 
 const loginContainer = document.createElement("div");
 const loginCol = document.createElement("div");
@@ -41,6 +45,11 @@ const loginBtn = document.createElement("button");
 
 const dashboardContainer = document.createElement("div");
 const newGameBtn = document.createElement("button");
+
+const gameViewContainer = document.createElement("div");
+const boardContainer = document.createElement("div");
+const gameInfoContainer = document.createElement("div");
+const backToDashboardBtn = document.createElement("button");
 
 const placePiece = (i, j) => {
   console.log(`coordinates: ${i}, ${j}`);
@@ -67,7 +76,7 @@ const placePiece = (i, j) => {
 };
 
 const renderBoard = (boardArr) => {
-  mainContainer.innerHTML = "";
+  boardContainer.innerHTML = "";
   const boardGrid = document.createElement("div");
   boardGrid.classList.add("grid-display");
   const boardLen = boardArr.length;
@@ -105,7 +114,29 @@ const renderBoard = (boardArr) => {
       }
     }
   }
-  mainContainer.appendChild(boardGrid);
+  boardContainer.appendChild(boardGrid);
+};
+
+const renderGameView = () => {
+  mainContainer.innerHTML = "";
+  console.log(currentGame.game);
+  let newGoObj = new go(JSON.stringify(currentGame.game));
+  console.log("#######################");
+  console.log(newGoObj.printField());
+  renderBoard(newGoObj.field);
+
+  gameViewContainer.classList.add("row");
+  [boardContainer, gameInfoContainer].forEach((element) => {
+    element.classList.add("col");
+    gameViewContainer.appendChild(element);
+  });
+  backToDashboardBtn.classList.add("btn", "btn-primary");
+  backToDashboardBtn.innerText = "Back to Home";
+  backToDashboardBtn.addEventListener("click", () => {
+    renderUserDashboard();
+  });
+  gameInfoContainer.appendChild(backToDashboardBtn);
+  mainContainer.appendChild(gameViewContainer);
 };
 
 const newGameClick = () => {
@@ -119,11 +150,10 @@ const newGameClick = () => {
     .then((result) => {
       console.log("new game posted successfully");
       currentGame = result.data;
-      console.log(currentGame.game);
-      let newGoObj = new go(JSON.stringify(currentGame.game));
-      console.log("#######################");
-      console.log(newGoObj.printField());
-      renderBoard(newGoObj.field);
+      renderGameView();
+
+      // const modalToClose = document.getElementById("newGameModal");
+      // modalToClose.remove();
     })
     .catch((error) => {
       console.log(error);
@@ -218,7 +248,7 @@ const renderUserDashboard = () => {
   newGameBtn.classList.add("btn", "btn-primary");
   newGameBtn.innerText = "Create new game";
 
-  document.body.appendChild(newGameBtn);
+  // document.body.appendChild(newGameBtn);
   newGameBtn.setAttribute("data-bs-toggle", "modal");
   newGameBtn.setAttribute("data-bs-target", "#newGameModal");
   // newGameBtn.addEventListener("click", newGameClick);
@@ -267,3 +297,5 @@ const renderLoginView = () => {
 };
 
 renderLoginView();
+
+// loginModule.renderLoginView();

@@ -5,6 +5,12 @@ export default function initUsersController(db) {
     response.sendFile(resolve("dist", "main.html"));
   };
 
+  const single = async (request, response) => {
+    const { userId } = request.cookies;
+    const user = await db.User.findOne({ where: { id: userId } });
+    response.send(user);
+  };
+
   const index = async (request, response) => {
     try {
       const users = await db.User.findAll();
@@ -45,6 +51,7 @@ export default function initUsersController(db) {
 
   return {
     root,
+    single,
     login,
     index,
   };
