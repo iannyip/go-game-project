@@ -201,6 +201,12 @@ const newGameClick = () => {
 };
 
 const NewGameModal = () => {
+  const previousModal = document.getElementById("newGameModal");
+  if (previousModal) {
+    console.log(`previous modal found!`);
+    document.body.removeChild(previousModal);
+  }
+
   const modalDiv = document.createElement("div");
   const modalDialogDiv = document.createElement("div");
   const modalContentDiv = document.createElement("div");
