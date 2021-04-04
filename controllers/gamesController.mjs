@@ -183,6 +183,10 @@ export default function initGamesController(db) {
     });
   };
 
+  const show = async (request, response) => {
+    //
+  };
+
   return {
     index,
     create,

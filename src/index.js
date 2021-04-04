@@ -49,6 +49,17 @@ const sidebar = document.createElement("div");
 const rightContent = document.createElement("div");
 const sidebarHeader = document.createElement("div");
 const sidebarList = document.createElement("ul");
+const gameTable = document.createElement("table");
+const gameTableHead = document.createElement("thead");
+gameTableHead.innerHTML = `<thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Board</th>
+    </tr>
+  </thead>`;
+// <th scope="col">Opponent</th>
+// <th scope="col">Turn</th>
+const gameTableBody = document.createElement("tbody");
 sidebarHeader.innerText = "Play GO!";
 dashboardContainer.classList.add("wrapper");
 sidebarList.classList.add("list-unstyled", "components");
@@ -275,6 +286,8 @@ const NewGameModal = () => {
 const renderUserDashboard = () => {
   // 1. Clear the view
   mainContainer.innerHTML = "";
+  dashboardContainer.innerHTML = "";
+  sidebarList.innerHTML = "";
 
   // 2. Add newGameBtn
   newGameBtn.classList.add("btn", "btn-primary");
@@ -288,8 +301,28 @@ const renderUserDashboard = () => {
   rightContent.appendChild(newGameBtn);
 
   // 4. Get the list of all ongoing games
+  gameTable.classList.add("table");
+  gameTable.appendChild(gameTableHead);
+  gameTable.appendChild(gameTableBody);
+  rightContent.appendChild(gameTable);
+  axios
+    .get("/dashboard")
+    .then((result) => {
+      const userInfo = result.data;
+      console.log(userInfo);
+      userInfo.games.forEach((usergame) => {
+        console.log(usergame.gameId);
+        const gameRow = document.createElement("tr");
+        gameRow.innerHTML = `
+        <th scope='row'>${usergame.gameId}</th>
+        <td><a href='#'>Play</a></td>
+        `;
+        gameTableBody.appendChild(gameRow);
+      });
+    })
+    .catch((error) => console.log(error));
 
-  // Sidebar list
+  // 5. Sidebar list
   const sidebarItems = ["User", "Games", "Win", "Lose"];
   sidebarItems.forEach((item) => {
     const itemElement = document.createElement("li");

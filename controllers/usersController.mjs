@@ -48,10 +48,38 @@ export default function initUsersController(db) {
     }
   };
 
+  const gameindex = async (request, response) => {
+    try {
+      const { userId } = request.cookies;
+      console.log(`~~~~~~~~~~~~~~~~~~~~~~`);
+      console.log("userId", userId);
+      const userGames = await db.User.findOne({
+        where: { id: userId },
+        include: [
+          {
+            model: db.GameUser,
+          },
+        ],
+      });
+      console.log(userGames);
+      console.log("userGame ID: ", userGames.id);
+      console.log("userGame name: ", userGames.name);
+      console.log("userGame games: ", userGames.gameUsers[0]);
+      const result = {
+        username: userGames.name,
+        games: userGames.gameUsers,
+      };
+      response.send(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     root,
     single,
     login,
     index,
+    gameindex,
   };
 }

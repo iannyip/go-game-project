@@ -8,14 +8,14 @@ export default function initGameUserModel(sequelize, DataTypes) {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      game_id: {
+      gameId: {
         type: DataTypes.INTEGER,
         references: {
           model: "games",
           key: "id",
         },
       },
-      user_id: {
+      userId: {
         type: DataTypes.INTEGER,
         references: {
           model: "users",

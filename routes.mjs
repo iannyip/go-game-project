@@ -18,6 +18,7 @@ export default function bindRoutes(app) {
   app.get("/", UserController.root);
   app.post("/login", UserController.login);
   app.get("/users", UserController.index);
+  app.get("/dashboard", UserController.gameindex);
 
   // app.get("/users/:id/wins", UserController.wins);
 
