@@ -6,31 +6,6 @@ import loginModules from "./loginModule";
 const loginModule = loginModules();
 let currentGame = null;
 
-// var myModal = new bootstrap.Modal(document.getElementById("myModal"), options);
-// document.body.append(myModal);
-
-const getCookie = (cname) => {
-  const name = cname + "=";
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const ca = decodedCookie.split(";");
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == " ") {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-};
-
-const game = new go(3);
-game.playerTurn(go.BLACK, [0, 1]);
-console.log(game.printField());
-
-console.log("helloooo");
-
 // Get Main Container Element
 const mainContainer = document.getElementById("mainContainer");
 mainContainer.classList.add("container");
