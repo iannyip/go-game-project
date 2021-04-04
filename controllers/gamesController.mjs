@@ -184,7 +184,17 @@ export default function initGamesController(db) {
   };
 
   const show = async (request, response) => {
-    //
+    try {
+      const gameId = request.params.id;
+      const game = await db.Game.findOne({ where: { id: gameId } });
+      const result = {
+        id: gameId,
+        game: game.gameState,
+      };
+      response.send(result);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return {
@@ -193,5 +203,6 @@ export default function initGamesController(db) {
     test,
     test2,
     update,
+    show,
   };
 }

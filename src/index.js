@@ -283,11 +283,25 @@ const NewGameModal = () => {
   document.body.appendChild(modalDiv);
 };
 
+const openCurrentGame = (gameId) => {
+  axios
+    .get(`/game/${gameId}`)
+    .then((result) => {
+      console.log("retrieving game... ", result.data);
+      currentGame = result.data;
+      renderGameView();
+      // return result.data;
+    })
+    .catch((error) => console.log(error));
+};
+
 const renderUserDashboard = () => {
   // 1. Clear the view
   mainContainer.innerHTML = "";
   dashboardContainer.innerHTML = "";
   sidebarList.innerHTML = "";
+  // gameTable.innerHTML = "";
+  gameTableBody.innerHTML = "";
 
   // 2. Add newGameBtn
   newGameBtn.classList.add("btn", "btn-primary");
@@ -313,10 +327,22 @@ const renderUserDashboard = () => {
       userInfo.games.forEach((usergame) => {
         console.log(usergame.gameId);
         const gameRow = document.createElement("tr");
-        gameRow.innerHTML = `
-        <th scope='row'>${usergame.gameId}</th>
-        <td><a href='#'>Play</a></td>
-        `;
+        const gameNo = document.createElement("th");
+        const gameLink = document.createElement("td");
+        const gameBtn = document.createElement("button");
+        gameNo.innerText = usergame.gameId;
+        gameBtn.classList.add("btn", "btn-secondary", "btn-sm");
+        gameBtn.innerText = "Link";
+        gameBtn.addEventListener("click", () => {
+          currentGame = openCurrentGame(usergame.gameId);
+        });
+        // gameRow.innerHTML = `
+        // <th scope='row'>${usergame.gameId}</th>
+        // <td><a href='/game/${usergame.gameId}'>Play</a></td>
+        // `;
+        gameRow.appendChild(gameNo);
+        gameRow.appendChild(gameLink);
+        gameLink.appendChild(gameBtn);
         gameTableBody.appendChild(gameRow);
       });
     })
