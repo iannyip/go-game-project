@@ -55,14 +55,11 @@ export function buildBoard(boardArr, callbackFn) {
 }
 
 const makePlayerDiv = (playerNo, currentGame) => {
-  console.log(`generating info for ${playerNo}`);
-
   const playerCol = document.createElement('div');
   playerCol.classList.add('col', `player-col-${playerNo}`);
   const playerName = document.createElement('p');
   const playerScore = document.createElement('p');
-  console.log('testing for 0: ...');
-  // console.log(currentGame.game.users[0]);
+
   playerName.innerText = currentGame.players[playerNo];
   playerScore.innerText = `${currentGame.game.score[playerNo]} Captures`;
 
@@ -96,16 +93,10 @@ export function renderGameContainer(currentGame, backBtnCB, refreshCB) {
   });
 
   // 2. Get the game object from variable <currentGame>
-  console.log('~~~~ CURRENT GAME OBJECT ~~~~');
-  console.log(currentGame);
-  console.log(currentGame.game);
   const newGoObj = new go(JSON.stringify(currentGame.game));
-  console.log('#######################');
-  // console.log(newGoObj.printField());
+
   const moveCount = currentGame.game.moves.length;
   const nextPlayer = moveCount % 2;
-  console.log(`Number of moves: ${moveCount}`);
-  console.log(`next player: ${nextPlayer}`);
 
   const blackPlayer = makePlayerDiv(0, currentGame);
   const whitePlayer = makePlayerDiv(1, currentGame);
@@ -136,5 +127,4 @@ export function renderGameContainer(currentGame, backBtnCB, refreshCB) {
   buttonsRow.appendChild(backToDashboardBtn);
   buttonsRow.appendChild(refreshGameBtn);
   return gameViewContainer;
-  // mainContainer.appendChild(gameViewContainer);
 }

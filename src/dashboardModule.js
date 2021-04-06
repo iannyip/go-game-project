@@ -74,11 +74,9 @@ export function NewGameModal(callbackFn) {
   axios
     .get('/users')
     .then((result) => {
-      console.log(result.data);
       const usersArr = result.data;
       usersArr.forEach((user) => {
         const optionEle = document.createElement('option');
-        // optionEle.value = user.id;
         optionEle.value = user.name;
         userDataList.appendChild(optionEle);
       });
@@ -174,9 +172,7 @@ export function renderUserDashboardElement(callbackFn) {
     .get('/dashboard')
     .then((result) => {
       const userInfo = result.data;
-      console.log(userInfo);
       userInfo.games.forEach((usergame) => {
-        console.log(usergame.gameId);
         const gameRow = document.createElement('tr');
         const gameNo = document.createElement('th');
         const gameLink = document.createElement('td');
