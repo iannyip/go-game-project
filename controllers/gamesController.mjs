@@ -1,4 +1,3 @@
-import { response } from 'express';
 import go from 'go-game';
 
 // Helper functions
@@ -26,6 +25,8 @@ export default function initGamesController(db) {
           name: request.body.opponent,
         },
       });
+
+      // Make info needed for a go game obj. Store in newGame
       const players = {
         white: 1,
         black: 0,
@@ -46,8 +47,10 @@ export default function initGamesController(db) {
           score,
         },
       };
+      // INSERT INTO games table
       const createdGame = await db.Game.create(newGame);
-      // TO FIX
+
+      // INSERT INTO game_users table
       const blackPlayer = await createdGame.createGameUser({
         userId: Number(userId),
         colour: 0,
@@ -58,6 +61,8 @@ export default function initGamesController(db) {
         colour: 1,
       });
       const whitePlayerInfo = await whitePlayer.getUser();
+
+      // UPDATE players column in games table
       const users = {
         0: blackPlayerInfo.name,
         1: whitePlayerInfo.name,
@@ -76,25 +81,15 @@ export default function initGamesController(db) {
       console.log(error);
     }
   };
+
   const test = async (request, response) => {
     try {
       const newGame = await db.Game.create({
         gameState: '{}',
       });
-      console.log(newGame);
-      console.log('~~~~~~~~~~~~~ updated gameState ~~~~~~~~~~~~~~');
-
       newGame.gameState = JSON.stringify({ hello: 1 });
-      console.log(newGame);
       await newGame.save();
-      console.log('~~~~~~~~~~~~~ retrieve gameState ~~~~~~~~~~~~~~');
       const checkGame = await db.Game.findOne({ where: { id: 1 } });
-      console.log(checkGame);
-      // const updatedGame = await newGame.update({
-      //   gameState: JSON.stringify({ hello: 1 }),
-      // });
-      // console.log(updatedGame);
-
       response.send('yay');
     } catch (error) {
       console.log(error);
@@ -138,17 +133,15 @@ export default function initGamesController(db) {
 
   const update = async (request, response) => {
     const playerId = request.cookies.userId;
-    console.log(`${playerId}'s move:`);
-    console.log(request.body);
+
     // Get the game from db
     const game = await db.Game.findOne({
       where: {
         id: request.body.gameId,
       },
     });
-    console.log('THE GAME ------');
-    console.log(game);
-    // Get the current player
+
+    // Get the current player (to find out which color he is)
     const currentPlayer = await db.GameUser.findOne({
       where: {
         gameId: request.body.gameId,
@@ -161,34 +154,31 @@ export default function initGamesController(db) {
     // Create the go-game object
     let goGame;
     if (game.gameState.moves[0].score == null) {
+      // If first time, make the game obj using board size
       console.log('first time');
       const boardLen = game.gameState.moves[0].field.length;
       goGame = new go(boardLen);
     } else {
+      // If 2nd time, make the game object using JSON
       console.log('second time');
       goGame = new go(JSON.stringify(game.gameState));
     }
 
-    console.log(goGame.field);
-
-    // Let user play
+    // update the game object with player's turn
     if (currentPlayer.colour === 0) {
       goGame.playerTurn(go.BLACK, [request.body.row, request.body.col]);
     } else {
       goGame.playerTurn(go.WHITE, [request.body.row, request.body.col]);
     }
+
     // Update db
     game.gameState = goGame;
-    console.log(game.gameState);
     await db.Game.update(
       { gameState: game.gameState },
       { where: { id: game.id } },
     );
     const updatedGame = await db.Game.findOne({ where: { id: game.id } });
-    console.log('updated Game:');
-    console.log(updatedGame);
-    console.log('updated Game State:');
-    console.log(updatedGame.gameState);
+
     // Send back to front end
     response.send({
       id: updatedGame.id,
