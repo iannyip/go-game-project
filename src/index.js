@@ -8,7 +8,7 @@ import {
 } from './dashboardModule.js';
 import { updateGame, buildBoard, renderGameContainer } from './gameModule.js';
 
-// const loginModule = loginModules();
+// Declare game state elements
 let currentGame = null;
 
 // Get Main Container Element
@@ -17,10 +17,6 @@ mainContainer.classList.add('container');
 
 // GAME CALLBACKS
 const placePiece = (i, j) => {
-  console.log(`coordinates: ${i}, ${j}`);
-  console.log(`current game id: ${currentGame.id}`);
-  console.log('###########');
-  console.log(currentGame);
   const newCoord = {
     row: i,
     col: j,
@@ -35,7 +31,7 @@ const placePiece = (i, j) => {
 };
 
 const renderGameView = () => {
-  console.log("Before we render, let's check currentGame ...");
+  console.log('Rendering board. Checking currentGame: ');
   console.log(currentGame);
   mainContainer.innerHTML = '';
   const gameViewContainer = renderGameContainer(currentGame, makeDashboard, currentGameCallback);
@@ -52,10 +48,8 @@ const newGameCallback = () => {
     opponent: document.getElementById('opponentInput').value,
     board: document.getElementById('boardSizeInput').value,
   };
-  // console.log(newGameInfo);
   newGameClick(newGameInfo)
     .then((result) => {
-      console.log('new game posted successfully');
       // Update currentGame and render game view
       currentGame = result.data;
       renderGameView();
@@ -66,11 +60,9 @@ const newGameCallback = () => {
 const currentGameCallback = (gameId) => {
   getGame(gameId)
     .then((result) => {
-      console.log('retrieving game... ', result.data);
       // Update currentGame and render game view
       currentGame = result.data;
       renderGameView();
-      // renderGameView();
     })
     .catch((error) => console.log(error));
 };
@@ -89,7 +81,6 @@ const loginClickCallback = () => {
   const password = document.getElementById('Password').value;
   authUserLogin(name, password)
     .then((result) => {
-      console.log(result.data);
       if (result.data === 'valid user') {
         makeDashboard();
       } else {
