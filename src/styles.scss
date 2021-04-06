@@ -38,6 +38,11 @@ body {
   z-index: 1;
 }
 
+.cell:hover {
+  background-color: rgb(250, 217, 167);
+  content: "⚪";
+}
+
 .v-f::before {
   background: black;
   content: "";
