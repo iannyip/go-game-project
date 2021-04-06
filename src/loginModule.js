@@ -1,60 +1,48 @@
-import "./styles.scss";
-import axios from "axios";
-import go from "go-game";
+import './styles.scss';
+import axios from 'axios';
+import go from 'go-game';
 
-const mainContainer = document.getElementById("mainContainer");
+export function renderLoginElements(callbackFunction) {
+  // Declare login elements
+  const loginContainer = document.createElement('div');
+  const loginCol = document.createElement('div');
+  const loginName = document.createElement('input');
+  const loginPassword = document.createElement('input');
+  const loginBtn = document.createElement('button');
 
-const loginContainer = document.createElement("div");
-const loginCol = document.createElement("div");
-const loginName = document.createElement("input");
-const loginPassword = document.createElement("input");
-const loginBtn = document.createElement("button");
+  // Set placeholders, text and classes
+  mainContainer.innerHTML = '';
+  loginName.placeholder = 'Username';
+  loginPassword.placeholder = 'Password';
 
-export default function loginFeatures() {
-  const renderLoginView = () => {
-    console.log("i ran!");
-    mainContainer.innerHTML = "";
-    loginName.placeholder = "Username";
-    loginPassword.placeholder = "Password";
-    loginBtn.innerText = "Login";
+  // Set attributes, class, CALLBACK of login button
+  loginBtn.innerText = 'Login';
+  loginBtn.classList.add('btn', 'btn-primary');
+  loginBtn.setAttribute('type', 'submit');
+  loginBtn.addEventListener('click', callbackFunction);
 
-    loginBtn.classList.add("btn", "btn-primary");
-    loginBtn.setAttribute("type", "submit");
-    loginBtn.addEventListener("click", authUserLogin);
+  // Assign id, add class, and append
+  [loginName, loginPassword, loginBtn].forEach((element) => {
+    element.id = element.placeholder || element.innerText;
+    element.classList.add('form-control', 'my-4');
+    loginCol.appendChild(element);
+  });
 
-    [loginName, loginPassword, loginBtn].forEach((element) => {
-      element.id = element.placeholder || element.innerText;
-      element.classList.add("form-control", "my-4");
-      loginCol.appendChild(element);
-    });
+  // Modify main container
+  loginContainer.classList.add('row', 'justify-content-center', 'my-4');
+  loginCol.classList.add('col-md-6');
+  loginContainer.appendChild(loginCol);
 
-    loginContainer.classList.add("row", "justify-content-center", "my-4");
-    loginCol.classList.add("col-md-6");
-    loginContainer.appendChild(loginCol);
-    mainContainer.appendChild(loginContainer);
+  return loginContainer;
+}
+
+export function authUserLogin(name, password) {
+  console.log('checking for login...');
+  const userInfo = {
+    name,
+    password,
   };
-
-  const authUserLogin = () => {
-    console.log("checking for login...");
-    const userInfo = {
-      name: document.getElementById("Username").value,
-      password: document.getElementById("Password").value,
-    };
-    axios
-      .post("/login", userInfo)
-      .then((result) => {
-        console.log(result.data);
-        if (result.data == "valid user") {
-          renderUserDashboard();
-        } else {
-          renderLoginView();
-        }
-      })
-      .catch((error) => console.log(error));
-  };
-
-  return {
-    renderLoginView,
-    authUserLogin,
-  };
+  return axios
+    .post('/login', userInfo)
+    .catch((error) => console.log(error));
 }

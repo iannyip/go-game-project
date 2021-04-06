@@ -7,6 +7,14 @@ body {
   background-color: pink;
 }
 
+.board-5 {
+  $number-of-boxes: 5;
+}
+
+.boar-7 {
+  $number-of-boxes: 7;
+}
+
 .grid-display {
   display: grid;
   grid-template-columns: repeat($number-of-boxes, $box-len);
