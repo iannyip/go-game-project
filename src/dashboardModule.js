@@ -185,7 +185,7 @@ export function renderUserDashboardElement(callbackFn) {
         gameBtn.classList.add('btn', 'btn-secondary', 'btn-sm');
         gameBtn.innerText = 'Link';
         gameBtn.addEventListener('click', () => {
-          currentGame = callbackFn(usergame.gameId);
+          callbackFn(usergame.gameId);
         });
         // gameRow.innerHTML = `
         // <th scope='row'>${usergame.gameId}</th>
