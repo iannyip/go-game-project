@@ -14,32 +14,6 @@ let currentGame = null;
 const mainContainer = document.getElementById('mainContainer');
 mainContainer.classList.add('container');
 
-// Dashboard View Elements
-const dashboardContainer = document.createElement('div');
-dashboardContainer.id = 'dashboardContainer';
-const sidebar = document.createElement('div');
-const rightContent = document.createElement('div');
-const sidebarHeader = document.createElement('div');
-const sidebarList = document.createElement('ul');
-const gameTable = document.createElement('table');
-const gameTableHead = document.createElement('thead');
-gameTableHead.innerHTML = `<thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Board</th>
-    </tr>
-  </thead>`;
-// <th scope="col">Opponent</th>
-// <th scope="col">Turn</th>
-const gameTableBody = document.createElement('tbody');
-sidebarHeader.innerText = 'Play GO!';
-dashboardContainer.classList.add('wrapper');
-sidebarList.classList.add('list-unstyled', 'components');
-sidebar.id = 'sidebar';
-rightContent.id = 'content';
-
-const newGameBtn = document.createElement('button');
-
 // Game View Elements
 const gameViewContainer = document.createElement('div');
 const boardContainer = document.createElement('div');

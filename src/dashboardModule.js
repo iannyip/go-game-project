@@ -88,8 +88,10 @@ export function NewGameModal(callbackFn) {
       console.log(error);
     });
 
+  // 7. Add callback function to submit button
   modalSubmit.addEventListener('click', callbackFn);
 
+  // 8. Append elements to form the modal form
   modalDiv.appendChild(modalDialogDiv);
   modalDialogDiv.appendChild(modalContentDiv);
   modalContentDiv.appendChild(modalHeaderDiv);
@@ -102,8 +104,9 @@ export function NewGameModal(callbackFn) {
   modalBodyDiv.appendChild(userDataList);
   modalBodyDiv.appendChild(boardSelectText);
   modalBodyDiv.appendChild(boardSizeInput);
+
+  // 9. Return modal element
   return modalDiv;
-  // document.body.appendChild(modalDiv);
 }
 
 export function getGame(gameId) {
@@ -155,10 +158,9 @@ export function renderUserDashboardElement(callbackFn) {
   newGameBtn.setAttribute('data-bs-toggle', 'modal');
   newGameBtn.setAttribute('data-bs-target', '#newGameModal');
   NewGameModal();
-  // mainContainer.appendChild(newGameBtn);
   rightContent.appendChild(newGameBtn);
 
-  // 4. Get the list of all ongoing games
+  // 4. RIGHTCONTENT: Get the table of all ongoing games
   gameTable.classList.add('table');
   gameTable.appendChild(gameTableHead);
   gameTable.appendChild(gameTableBody);
@@ -202,11 +204,12 @@ export function renderUserDashboardElement(callbackFn) {
     sidebarList.appendChild(itemElement);
   });
 
-  // Create the dashboard layout
+  // 6. Create the dashboard layout by combining SIDEBAR and RIGHTCONTENT
   dashboardContainer.appendChild(sidebar);
   dashboardContainer.appendChild(rightContent);
   sidebar.appendChild(sidebarHeader);
   sidebar.appendChild(sidebarList);
-  // document.body.appendChild(dashboardContainer);
+
+  // 7. Pass the element back to user
   return dashboardContainer;
 }
