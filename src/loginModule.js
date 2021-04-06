@@ -1,6 +1,5 @@
 import './styles.scss';
 import axios from 'axios';
-import go from 'go-game';
 
 export function renderLoginElements(callbackFunction) {
   // Declare login elements
@@ -11,7 +10,6 @@ export function renderLoginElements(callbackFunction) {
   const loginBtn = document.createElement('button');
 
   // Set placeholders, text and classes
-  mainContainer.innerHTML = '';
   loginName.placeholder = 'Username';
   loginPassword.placeholder = 'Password';
 
