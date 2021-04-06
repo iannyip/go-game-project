@@ -19,6 +19,8 @@ mainContainer.classList.add('container');
 const placePiece = (i, j) => {
   console.log(`coordinates: ${i}, ${j}`);
   console.log(`current game id: ${currentGame.id}`);
+  console.log('###########');
+  console.log(currentGame);
   const newCoord = {
     row: i,
     col: j,
@@ -33,6 +35,8 @@ const placePiece = (i, j) => {
 };
 
 const renderGameView = () => {
+  console.log("Before we render, let's check currentGame ...");
+  console.log(currentGame);
   mainContainer.innerHTML = '';
   const gameViewContainer = renderGameContainer(currentGame, makeDashboard, currentGameCallback);
   mainContainer.appendChild(gameViewContainer);
@@ -48,7 +52,7 @@ const newGameCallback = () => {
     opponent: document.getElementById('opponentInput').value,
     board: document.getElementById('boardSizeInput').value,
   };
-  console.log(newGameInfo);
+  // console.log(newGameInfo);
   newGameClick(newGameInfo)
     .then((result) => {
       console.log('new game posted successfully');

@@ -5,42 +5,10 @@ export function updateGame(coordObj) {
   // coordObj is an object containing the row, col, and gameId
   return axios
     .post('/placepiece', coordObj)
-    // .then((result) => {
-    //   currentGame = result.data;
-    //   console.log(currentGame.game);
-    //   const newGoObj = new go(JSON.stringify(currentGame.game));
-    //   console.log('#######################');
-    //   console.log(newGoObj.printField());
-    //   renderBoard(newGoObj.field);
-    // })
     .catch((error) => {
       console.log(error);
     });
 }
-
-// const placePiece = (i, j, gameId) => {
-//   console.log(`coordinates: ${i}, ${j}`);
-//   console.log(`current game id: ${currentGame.id}`);
-//   const newCoord = {
-//     row: i,
-//     col: j,
-//     gameId,
-//   };
-//   axios
-//     .post('/placepiece', newCoord)
-//     .then((result) => {
-//       console.log('piece placed successfully');
-//       currentGame = result.data;
-//       console.log(currentGame.game);
-//       const newGoObj = new go(JSON.stringify(currentGame.game));
-//       console.log('#######################');
-//       console.log(newGoObj.printField());
-//       renderBoard(newGoObj.field);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
 
 export function buildBoard(boardArr, callbackFn) {
   const boardGrid = document.createElement('div');
@@ -75,16 +43,33 @@ export function buildBoard(boardArr, callbackFn) {
         box.classList.add('h-f');
       }
       if (boardArr[i][j] === 1) {
-        piece.innerText = '⚫';
+        piece.innerText = '⚪';
         box.appendChild(piece);
       } else if (boardArr[i][j] === 0) {
-        piece.innerText = '⚪';
+        piece.innerText = '⚫';
         box.appendChild(piece);
       }
     }
   }
   return boardGrid;
 }
+
+const makePlayerDiv = (playerNo, currentGame) => {
+  console.log(`generating info for ${playerNo}`);
+
+  const playerCol = document.createElement('div');
+  playerCol.classList.add('col', `player-col-${playerNo}`);
+  const playerName = document.createElement('p');
+  const playerScore = document.createElement('p');
+  console.log('testing for 0: ...');
+  // console.log(currentGame.game.users[0]);
+  playerName.innerText = currentGame.players[playerNo];
+  playerScore.innerText = `${currentGame.game.score[playerNo]} Captures`;
+
+  playerCol.appendChild(playerName);
+  playerCol.appendChild(playerScore);
+  return playerCol;
+};
 
 export function renderGameContainer(currentGame, backBtnCB, refreshCB) {
   // 0. Clear any dashboard elements
@@ -95,19 +80,39 @@ export function renderGameContainer(currentGame, backBtnCB, refreshCB) {
 
   // 1. Declare elements
   const gameViewContainer = document.createElement('div');
+
   const boardContainer = document.createElement('div');
   const gameInfoContainer = document.createElement('div');
+  const buttonsRow = document.createElement('div');
+  const gameMsgRow = document.createElement('div');
+  const playersRow = document.createElement('div');
   const backToDashboardBtn = document.createElement('button');
   const refreshGameBtn = document.createElement('button');
 
+  gameViewContainer.classList.add('row');
+  [buttonsRow, gameMsgRow, playersRow].forEach((element) => {
+    element.classList.add('row', 'my-4');
+    gameInfoContainer.appendChild(element);
+  });
+
   // 2. Get the game object from variable <currentGame>
+  console.log('~~~~ CURRENT GAME OBJECT ~~~~');
+  console.log(currentGame);
   console.log(currentGame.game);
   const newGoObj = new go(JSON.stringify(currentGame.game));
   console.log('#######################');
-  console.log(newGoObj.printField());
+  // console.log(newGoObj.printField());
+  const moveCount = currentGame.game.moves.length;
+  const nextPlayer = moveCount % 2;
+  console.log(`Number of moves: ${moveCount}`);
+  console.log(`next player: ${nextPlayer}`);
+
+  const blackPlayer = makePlayerDiv(0, currentGame);
+  const whitePlayer = makePlayerDiv(1, currentGame);
+  playersRow.appendChild(blackPlayer);
+  playersRow.appendChild(whitePlayer);
 
   // 3. Make the page view outline
-  gameViewContainer.classList.add('row');
   [boardContainer, gameInfoContainer].forEach((element) => {
     element.classList.add('col');
     gameViewContainer.appendChild(element);
@@ -125,16 +130,11 @@ export function renderGameContainer(currentGame, backBtnCB, refreshCB) {
     backBtnCB();
   });
   refreshGameBtn.addEventListener('click', () => {
-    // renderGameContainer(currentGame)
     refreshCB(currentGame.id);
   });
 
-  // 4. Make the board and append
-  // const builtBoard = buildBoard(newGoObj.field);
-  // boardContainer.appendChild(builtBoard);
-
-  gameInfoContainer.appendChild(backToDashboardBtn);
-  gameInfoContainer.appendChild(refreshGameBtn);
+  buttonsRow.appendChild(backToDashboardBtn);
+  buttonsRow.appendChild(refreshGameBtn);
   return gameViewContainer;
   // mainContainer.appendChild(gameViewContainer);
 }

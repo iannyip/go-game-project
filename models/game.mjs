@@ -1,6 +1,6 @@
 export default function initGameModel(sequelize, DataTypes) {
   return sequelize.define(
-    "game",
+    'game',
     {
       id: {
         allowNull: false,
@@ -12,6 +12,9 @@ export default function initGameModel(sequelize, DataTypes) {
         allowNull: false,
         type: DataTypes.JSON,
       },
+      players: {
+        type: DataTypes.JSON,
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
@@ -21,6 +24,6 @@ export default function initGameModel(sequelize, DataTypes) {
         type: DataTypes.DATE,
       },
     },
-    { underscored: true }
+    { underscored: true },
   );
 }

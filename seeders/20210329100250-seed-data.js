@@ -4,25 +4,25 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const userList = [
       {
-        name: "yettie",
-        password: "nsMAC8cgG",
+        name: 'yettie',
+        password: 'nsMAC8cgG',
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        name: "tybi",
-        password: "tybipassword",
+        name: 'tybi',
+        password: 'tybipassword',
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        name: "kai",
-        password: "kaipassword",
+        name: 'kai',
+        password: 'kaipassword',
         created_at: new Date(),
         updated_at: new Date(),
       },
     ];
-    await queryInterface.bulkInsert("users", userList);
+    await queryInterface.bulkInsert('users', userList);
     // const initialGame = {
     //   players: { white: 1, black: 0 },
     //   moves: [],
@@ -33,12 +33,13 @@ module.exports = {
 
     const gameList = [
       {
-        game_state: "{}",
+        game_state: '{}',
+        players: '{}',
         created_at: new Date(),
         updated_at: new Date(),
       },
     ];
-    await queryInterface.bulkInsert("games", gameList);
+    await queryInterface.bulkInsert('games', gameList);
 
     const gameUserList = [
       {
@@ -56,12 +57,12 @@ module.exports = {
         updated_at: new Date(),
       },
     ];
-    await queryInterface.bulkInsert("game_users", gameUserList);
+    await queryInterface.bulkInsert('game_users', gameUserList);
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete("users", null, {});
-    await queryInterface.bulkDelete("games", null, {});
-    await queryInterface.bulkDelete("game_users", null, {});
+    await queryInterface.bulkDelete('users', null, {});
+    await queryInterface.bulkDelete('games', null, {});
+    await queryInterface.bulkDelete('game_users', null, {});
   },
 };
