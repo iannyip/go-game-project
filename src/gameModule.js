@@ -56,8 +56,8 @@ export function buildBoard(boardArr, callbackFn) {
 
 const makePlayerDiv = (playerNo, currentGame) => {
   const playerCol = document.createElement('div');
-  playerCol.classList.add('col', `player-col-${playerNo}`);
-  const playerName = document.createElement('p');
+  playerCol.classList.add('col-sm-6', `player-col-${playerNo}`);
+  const playerName = document.createElement('b');
   const playerScore = document.createElement('p');
 
   playerName.innerText = currentGame.players[playerNo];
@@ -85,8 +85,10 @@ export function renderGameContainer(currentGame, backBtnCB, refreshCB) {
   const playersRow = document.createElement('div');
   const backToDashboardBtn = document.createElement('button');
   const refreshGameBtn = document.createElement('button');
+  const resignGameBtn = document.createElement('button');
 
   gameViewContainer.classList.add('row');
+  buttonsRow.classList.add('justify-content-around');
   [buttonsRow, gameMsgRow, playersRow].forEach((element) => {
     element.classList.add('row', 'my-4');
     gameInfoContainer.appendChild(element);
@@ -94,7 +96,6 @@ export function renderGameContainer(currentGame, backBtnCB, refreshCB) {
 
   // 2. Get the game object from variable <currentGame>
   const newGoObj = new go(JSON.stringify(currentGame.game));
-
   const moveCount = currentGame.game.moves.length;
   const nextPlayer = moveCount % 2;
 
@@ -102,6 +103,11 @@ export function renderGameContainer(currentGame, backBtnCB, refreshCB) {
   const whitePlayer = makePlayerDiv(1, currentGame);
   playersRow.appendChild(blackPlayer);
   playersRow.appendChild(whitePlayer);
+  if (nextPlayer === 0 || currentGame.game.moves[0].score === null) {
+    gameMsgRow.innerText = 'Black to move';
+  } else {
+    gameMsgRow.innerText = 'White to move';
+  }
 
   // 3. Make the page view outline
   [boardContainer, gameInfoContainer].forEach((element) => {
@@ -110,13 +116,16 @@ export function renderGameContainer(currentGame, backBtnCB, refreshCB) {
   });
   boardContainer.id = 'boardContainer';
 
-  [backToDashboardBtn, refreshGameBtn].forEach((button) => {
-    button.classList.add('btn', 'btn-primary');
+  // 4.1 Add the buttons
+  [backToDashboardBtn, refreshGameBtn, resignGameBtn].forEach((button) => {
+    button.classList.add('btn', 'btn-outline-dark', 'btn-sm', 'col-sm-3', 'my-2');
+    buttonsRow.appendChild(button);
   });
   refreshGameBtn.innerText = 'Refresh Game';
   backToDashboardBtn.innerText = 'Back to Home';
+  resignGameBtn.innerText = 'Resign';
 
-  // 4. Add the buttons
+  // 4.2 Button event listeners
   backToDashboardBtn.addEventListener('click', () => {
     backBtnCB();
   });
@@ -124,7 +133,5 @@ export function renderGameContainer(currentGame, backBtnCB, refreshCB) {
     refreshCB(currentGame.id);
   });
 
-  buttonsRow.appendChild(backToDashboardBtn);
-  buttonsRow.appendChild(refreshGameBtn);
   return gameViewContainer;
 }

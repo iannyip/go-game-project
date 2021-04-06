@@ -34,8 +34,12 @@ const renderGameView = () => {
   console.log('Rendering board. Checking currentGame: ');
   console.log(currentGame);
   mainContainer.innerHTML = '';
+
+  // Append main game container (gameViewContainer)
   const gameViewContainer = renderGameContainer(currentGame, makeDashboard, currentGameCallback);
   mainContainer.appendChild(gameViewContainer);
+
+  // Build board and append to boardContainer
   const newGoObj = new go(JSON.stringify(currentGame.game));
   const builtBoard = buildBoard(newGoObj.field, placePiece);
   const boardContainer = document.getElementById('boardContainer');

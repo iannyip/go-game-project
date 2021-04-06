@@ -35,7 +35,6 @@ export function renderLoginElements(callbackFunction) {
 }
 
 export function authUserLogin(name, password) {
-  console.log('checking for login...');
   const userInfo = {
     name,
     password,
