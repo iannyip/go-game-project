@@ -16,7 +16,6 @@ export function NewGameModal(callbackFn) {
   // 1. Clear any existing modals
   const previousModal = document.getElementById('newGameModal');
   if (previousModal) {
-    console.log('previous modal found!');
     document.body.removeChild(previousModal);
   }
 
@@ -116,6 +115,12 @@ export function getGame(gameId) {
 }
 
 export function renderUserDashboardElement(callbackFn) {
+  // -1. Clear any previous dashboards
+  const dashboardElement = document.getElementById('dashboardContainer');
+  if (dashboardElement) {
+    document.body.removeChild(dashboardElement);
+  }
+
   // 0. Declare elements
   const dashboardContainer = document.createElement('div');
   const sidebar = document.createElement('div');
