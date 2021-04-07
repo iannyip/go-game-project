@@ -135,8 +135,6 @@ export function renderUserDashboardElement(callbackFn) {
       <th scope="col">Turn</th>
     </tr>
   </thead>`;
-  // <th scope="col">Opponent</th>
-  // <th scope="col">Turn</th>
 
   dashboardContainer.id = "dashboardContainer";
   dashboardContainer.classList.add("wrapper");
@@ -196,10 +194,8 @@ export function renderUserDashboardElement(callbackFn) {
         gameBtn.addEventListener("click", () => {
           callbackFn(playedGame.gameId);
         });
-        // gameRow.innerHTML = `
-        // <th scope='row'>${usergame.gameId}</th>
-        // <td><a href='/game/${usergame.gameId}'>Play</a></td>
-        // `;
+
+        // Append items to the same row
         gameRow.appendChild(gameNo);
         gameRow.appendChild(gameLink);
         gameRow.appendChild(gameOpponent);
@@ -211,7 +207,8 @@ export function renderUserDashboardElement(callbackFn) {
     .catch((error) => console.log(error));
 
   // 5. Sidebar list
-  const sidebarItems = ["User", "Games", "Win", "Lose"];
+  // sidebarList.style =
+  const sidebarItems = ["User", "Games", "Wins", "Lose"];
   sidebarItems.forEach((item) => {
     const itemElement = document.createElement("li");
     itemElement.id = item;
@@ -219,6 +216,7 @@ export function renderUserDashboardElement(callbackFn) {
     itemElement.classList.add();
     sidebarList.appendChild(itemElement);
   });
+  // document.getElementById("User").innerText = "hello";
 
   // 6. Create the dashboard layout by combining SIDEBAR and RIGHTCONTENT
   dashboardContainer.appendChild(sidebar);

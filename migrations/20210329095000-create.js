@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable("users", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
-    await queryInterface.createTable('games', {
+    await queryInterface.createTable("games", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -38,6 +38,10 @@ module.exports = {
       players: {
         type: Sequelize.JSON,
       },
+      status: {
+        type: Sequelize.TEXT,
+        defaultValue: "Ongoing",
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -47,7 +51,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
-    await queryInterface.createTable('game_users', {
+    await queryInterface.createTable("game_users", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -57,19 +61,22 @@ module.exports = {
       game_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'games',
-          key: 'id',
+          model: "games",
+          key: "id",
         },
       },
       user_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'users',
-          key: 'id',
+          model: "users",
+          key: "id",
         },
       },
       colour: {
         type: Sequelize.INTEGER,
+      },
+      outcome: {
+        type: Sequelize.TEXT,
       },
       created_at: {
         allowNull: false,
@@ -83,8 +90,8 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('games');
-    await queryInterface.dropTable('users');
-    await queryInterface.dropTable('game_users');
+    await queryInterface.dropTable("games");
+    await queryInterface.dropTable("users");
+    await queryInterface.dropTable("game_users");
   },
 };

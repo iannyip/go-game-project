@@ -25,6 +25,9 @@ export default function initGameUserModel(sequelize, DataTypes) {
       colour: {
         type: DataTypes.INTEGER,
       },
+      outcome: {
+        type: DataTypes.TEXT,
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
