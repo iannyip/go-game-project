@@ -1,4 +1,6 @@
 import { resolve } from "path";
+import pkg from "sequelize";
+const { Op } = pkg;
 
 export default function initUsersController(db) {
   const root = (request, response) => {
@@ -84,11 +86,40 @@ export default function initUsersController(db) {
     }
   };
 
+  const stats = async (request, response) => {
+    const { userId } = request.cookies;
+
+    const user = await db.User.findOne({
+      where: { id: userId },
+    });
+    const countOngoing = await db.User.count({
+      where: { id: userId },
+      include: [{ model: db.GameUser, where: { outcome: null } }],
+    });
+    const countWins = await db.User.count({
+      where: { id: userId },
+      include: [{ model: db.GameUser, where: { outcome: "Win" } }],
+    });
+    const countLose = await db.User.count({
+      where: { id: userId },
+      include: [{ model: db.GameUser, where: { outcome: "Lose" } }],
+    });
+
+    const result = {
+      username: user.name,
+      ongoing: countOngoing,
+      wins: countWins,
+      lose: countLose,
+    };
+    response.send(result);
+  };
+
   return {
     root,
     single,
     login,
     index,
     gameindex,
+    stats,
   };
 }
