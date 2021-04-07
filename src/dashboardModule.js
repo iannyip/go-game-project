@@ -108,6 +108,35 @@ export function getGame(gameId) {
   return axios.get(`/game/${gameId}`).catch((error) => console.log(error));
 }
 
+const createSidebarList = () => {
+  const sidebarList = document.createElement("ul");
+  sidebarList.innerHTML = "";
+  sidebarList.classList.add("list-unstyled", "components", "text-center");
+
+  axios
+    .get("/stats")
+    .then((result) => {
+      const playerStats = result.data;
+      console.log(playerStats);
+
+      const sidebarItems = ["user", "games", "wins", "lose"];
+      sidebarItems.forEach((item) => {
+        const itemTitleElement = document.createElement("li");
+        const itemContentElement = document.createElement("li");
+        itemTitleElement.innerText = item;
+        itemContentElement.innerText = playerStats[item];
+        itemContentElement.classList.add("player-stat");
+        itemTitleElement.classList.add("h6");
+        sidebarList.appendChild(itemTitleElement);
+        sidebarList.appendChild(itemContentElement);
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return sidebarList;
+};
+
 export function renderUserDashboardElement(callbackFn) {
   // -1. Clear any previous dashboards
   const dashboardElement = document.getElementById("dashboardContainer");
@@ -120,7 +149,7 @@ export function renderUserDashboardElement(callbackFn) {
   const sidebar = document.createElement("div");
   const rightContent = document.createElement("div");
   const sidebarHeader = document.createElement("div");
-  const sidebarList = document.createElement("ul");
+  // const sidebarList = document.createElement("ul");
   const gameTable = document.createElement("table");
   const gameTableHead = document.createElement("thead");
   const gameTableBody = document.createElement("tbody");
@@ -140,13 +169,13 @@ export function renderUserDashboardElement(callbackFn) {
   dashboardContainer.classList.add("wrapper");
 
   sidebarHeader.innerText = "Play GO!";
-  sidebarList.classList.add("list-unstyled", "components");
+  // sidebarList.classList.add("list-unstyled", "components");
   sidebar.id = "sidebar";
   rightContent.id = "content";
 
   // 1. Clear the view
   dashboardContainer.innerHTML = "";
-  sidebarList.innerHTML = "";
+  // sidebarList.innerHTML = "";
   gameTableBody.innerHTML = "";
 
   // 2. Add newGameBtn
@@ -207,16 +236,7 @@ export function renderUserDashboardElement(callbackFn) {
     .catch((error) => console.log(error));
 
   // 5. Sidebar list
-  // sidebarList.style =
-  const sidebarItems = ["User", "Games", "Wins", "Lose"];
-  sidebarItems.forEach((item) => {
-    const itemElement = document.createElement("li");
-    itemElement.id = item;
-    itemElement.innerText = item;
-    itemElement.classList.add();
-    sidebarList.appendChild(itemElement);
-  });
-  // document.getElementById("User").innerText = "hello";
+  const sidebarList = createSidebarList();
 
   // 6. Create the dashboard layout by combining SIDEBAR and RIGHTCONTENT
   dashboardContainer.appendChild(sidebar);

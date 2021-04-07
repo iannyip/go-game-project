@@ -106,8 +106,8 @@ export default function initUsersController(db) {
     });
 
     const result = {
-      username: user.name,
-      ongoing: countOngoing,
+      user: user.name,
+      games: countOngoing,
       wins: countWins,
       lose: countLose,
     };
