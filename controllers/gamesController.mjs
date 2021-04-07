@@ -13,6 +13,21 @@ const makeBlankBoard = (boardLength) => {
   return array;
 };
 
+const calculateArea = (boardArray, playerNo) => {
+  const boardLen = boardArray.length;
+  const boardArea = boardLen ** 2;
+  let score = 0;
+  for (let i = 0; i < boardLen; i += 1) {
+    for (let j = 0; j < boardLen; j += 1) {
+      if (Number(boardArray[i][j]) === Number(playerNo)) {
+        score += 1;
+      }
+    }
+  }
+  const scorePercent = score / boardArea;
+  return scorePercent;
+};
+
 // Controllers
 export default function initGamesController(db) {
   const index = (request, response) => {};
