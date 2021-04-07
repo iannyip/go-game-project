@@ -137,7 +137,7 @@ const createSidebarList = () => {
   return sidebarList;
 };
 
-export function renderUserDashboardElement(callbackFn) {
+export function renderUserDashboardElement(callbackFn, refreshCB) {
   // -1. Clear any previous dashboards
   const dashboardElement = document.getElementById("dashboardContainer");
   if (dashboardElement) {
@@ -154,6 +154,7 @@ export function renderUserDashboardElement(callbackFn) {
   const gameTableHead = document.createElement("thead");
   const gameTableBody = document.createElement("tbody");
   const newGameBtn = document.createElement("button");
+  const refreshPgBtn = document.createElement("button");
 
   // 0.1. Add some styles
   gameTableHead.innerHTML = `<thead>
@@ -180,13 +181,19 @@ export function renderUserDashboardElement(callbackFn) {
 
   // 2. Add newGameBtn
   newGameBtn.classList.add("btn", "btn-primary");
+  refreshPgBtn.classList.add("btn", "btn-primary");
   newGameBtn.innerText = "Create new game";
+  refreshPgBtn.innerText = "Refresh page";
+  refreshPgBtn.addEventListener("click", () => {
+    refreshCB();
+  });
 
   // 3. Create modal (to create new game) and assign to newGameBtn
   newGameBtn.setAttribute("data-bs-toggle", "modal");
   newGameBtn.setAttribute("data-bs-target", "#newGameModal");
   NewGameModal();
   rightContent.appendChild(newGameBtn);
+  rightContent.appendChild(refreshPgBtn);
 
   // 4. RIGHTCONTENT: Get the table of all ongoing games
   gameTable.classList.add("table");
