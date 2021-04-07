@@ -53,6 +53,9 @@ export default function initUsersController(db) {
         include: [
           {
             model: db.GameUser,
+            include: [{
+              model: db.Game,
+            }],
           },
         ],
       });
