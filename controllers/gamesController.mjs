@@ -100,13 +100,14 @@ export default function initGamesController(db) {
 
   const test = async (request, response) => {
     try {
-      const newGame = await db.Game.create({
-        gameState: "{}",
-      });
-      newGame.gameState = JSON.stringify({ hello: 1 });
-      await newGame.save();
-      const checkGame = await db.Game.findOne({ where: { id: 1 } });
-      response.send("yay");
+      // const gameId = 13
+      // await db.GameUser.update(
+      //   { outcome: "Win" },
+      //   { where: { id: game.id, colour: 1 } }
+      // );
+      // await db.GameUser.update(
+      //   { outcome: "Lose" },
+      //   { where: { id: game.id, colour: 0 } }
     } catch (error) {
       console.log(error);
     }
@@ -264,9 +265,32 @@ export default function initGamesController(db) {
           { gameState: updatedGameState, status: "Pass" },
           { where: { id: game.id } }
         );
-        // If the previous player passed, end the game
+        // If the previous player passed, END the game
         if (lastMove.coord === "pass") {
           await db.Game.update({ status: "End" }, { where: { id: game.id } });
+          const whiteScore = calculateArea(lastMove.field, 1);
+          const blackScore = calculateArea(lastMove.field, 0);
+          console.log(`SCORE TALLY: ${whiteScore} vs ${blackScore}`);
+          console.log(`GOING TO UPDATE GAME: ${game.id}`);
+          if (whiteScore > blackScore) {
+            await db.GameUser.update(
+              { outcome: "Win" },
+              { where: { gameId: game.id, colour: 1 } }
+            );
+            await db.GameUser.update(
+              { outcome: "Lose" },
+              { where: { gameId: game.id, colour: 0 } }
+            );
+          } else {
+            await db.GameUser.update(
+              { outcome: "Lose" },
+              { where: { gameId: game.id, colour: 1 } }
+            );
+            await db.GameUser.update(
+              { outcome: "Win" },
+              { where: { gameId: game.id, colour: 0 } }
+            );
+          }
         }
       }
 
