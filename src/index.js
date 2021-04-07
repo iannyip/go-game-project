@@ -49,6 +49,13 @@ const passCB = () => {
     .catch((error) => console.log(error));
 };
 
+const runGame = (arr) => {
+  const boardContainer = document.getElementById("boardContainer");
+  boardContainer.innerHTML = "";
+  const replayBoard = buildBoard(arr, placePiece, "replay");
+  boardContainer.append(replayBoard);
+};
+
 const renderGameView = () => {
   console.log("Rendering board. Checking currentGame: ");
   console.log(currentGame);
@@ -59,7 +66,8 @@ const renderGameView = () => {
     currentGame,
     makeDashboard,
     currentGameCallback,
-    passCB
+    passCB,
+    runGame
   );
   mainContainer.appendChild(gameViewContainer);
 

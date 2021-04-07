@@ -73,7 +73,13 @@ const makePlayerDiv = (playerNo, currentGame) => {
   return playerCol;
 };
 
-export function renderGameContainer(currentGame, backBtnCB, refreshCB, passCB) {
+export function renderGameContainer(
+  currentGame,
+  backBtnCB,
+  refreshCB,
+  passCB,
+  runGame
+) {
   // 0. Clear any dashboard elements
   const dashboardElement = document.getElementById("dashboardContainer");
   if (dashboardElement) {
@@ -91,6 +97,7 @@ export function renderGameContainer(currentGame, backBtnCB, refreshCB, passCB) {
   const backToDashboardBtn = document.createElement("button");
   const refreshGameBtn = document.createElement("button");
   const passGameBtn = document.createElement("button");
+  const replayBtn = document.createElement("button");
 
   gameViewContainer.classList.add("row");
   buttonsRow.classList.add("justify-content-around");
@@ -126,19 +133,22 @@ export function renderGameContainer(currentGame, backBtnCB, refreshCB, passCB) {
   boardContainer.id = "boardContainer";
 
   // 4.1 Add the buttons
-  [backToDashboardBtn, refreshGameBtn, passGameBtn].forEach((button) => {
-    button.classList.add(
-      "btn",
-      "btn-outline-dark",
-      "btn-sm",
-      "col-sm-3",
-      "my-2"
-    );
-    buttonsRow.appendChild(button);
-  });
+  [backToDashboardBtn, refreshGameBtn, passGameBtn, replayBtn].forEach(
+    (button) => {
+      button.classList.add(
+        "btn",
+        "btn-outline-dark",
+        "btn-sm",
+        "col-sm-2",
+        "my-2"
+      );
+      buttonsRow.appendChild(button);
+    }
+  );
   refreshGameBtn.innerText = "Refresh Game";
   backToDashboardBtn.innerText = "Back to Home";
   passGameBtn.innerText = "Pass";
+  replayBtn.innerText = "Replay";
 
   // 4.2 Button event listeners
   backToDashboardBtn.addEventListener("click", () => {
@@ -149,6 +159,16 @@ export function renderGameContainer(currentGame, backBtnCB, refreshCB, passCB) {
   });
   passGameBtn.addEventListener("click", () => {
     passCB();
+  });
+  replayBtn.addEventListener("click", () => {
+    let moveNo = 0;
+    const playBoard = setInterval(() => {
+      runGame(currentGame.game.moves[moveNo].field);
+      moveNo += 1;
+      if (moveNo > moveCount - 1) {
+        clearInterval(playBoard);
+      }
+    }, 500);
   });
 
   return gameViewContainer;
