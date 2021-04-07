@@ -132,6 +132,7 @@ export function renderUserDashboardElement(callbackFn) {
       <th scope="col">#</th>
       <th scope="col">Board</th>
       <th scope="col">Opponent</th>
+      <th scope="col">Turn</th>
     </tr>
   </thead>`;
   // <th scope="col">Opponent</th>
@@ -174,13 +175,26 @@ export function renderUserDashboardElement(callbackFn) {
         const gameNo = document.createElement("th");
         const gameLink = document.createElement("td");
         const gameOpponent = document.createElement("td");
+        const gameTurn = document.createElement("td");
         const gameBtn = document.createElement("button");
         gameNo.innerText = playedGame.gameId;
         gameOpponent.innerText = playedGame.opponent;
+
+        const pTurn = playedGame.game.gameState.moves.length % 2;
+        console.log(`${pTurn} turn`);
+        console.log(playedGame.game.players[0]);
+        console.log(`This user is ${userInfo.username}`);
+        if (playedGame.game.players[pTurn] === userInfo.username) {
+          console.log("banana");
+          gameTurn.innerText = "Your turn";
+        } else {
+          gameTurn.innerText = `${playedGame.game.players[pTurn]}'s turn`;
+        }
+
         gameBtn.classList.add("btn", "btn-secondary", "btn-sm");
         gameBtn.innerText = "Link";
         gameBtn.addEventListener("click", () => {
-          callbackFn(usergame.gameId);
+          callbackFn(playedGame.gameId);
         });
         // gameRow.innerHTML = `
         // <th scope='row'>${usergame.gameId}</th>
@@ -189,6 +203,7 @@ export function renderUserDashboardElement(callbackFn) {
         gameRow.appendChild(gameNo);
         gameRow.appendChild(gameLink);
         gameRow.appendChild(gameOpponent);
+        gameRow.appendChild(gameTurn);
         gameLink.appendChild(gameBtn);
         gameTableBody.appendChild(gameRow);
       });
