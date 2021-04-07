@@ -163,6 +163,7 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
       <th scope="col">Board</th>
       <th scope="col">Opponent</th>
       <th scope="col">Turn</th>
+      <th scope="col">Game Status</th>
     </tr>
   </thead>`;
 
@@ -204,22 +205,24 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
     .get("/dashboard")
     .then((result) => {
       const userInfo = result.data;
+      console.log(userInfo);
       userInfo.games.forEach((playedGame) => {
         const gameRow = document.createElement("tr");
         const gameNo = document.createElement("th");
         const gameLink = document.createElement("td");
         const gameOpponent = document.createElement("td");
         const gameTurn = document.createElement("td");
+        const gameStatus = document.createElement("td");
         const gameBtn = document.createElement("button");
         gameNo.innerText = playedGame.gameId;
         gameOpponent.innerText = playedGame.opponent;
+        gameStatus.innerText = playedGame.game.status;
 
         const pTurn = playedGame.game.gameState.moves.length % 2;
         console.log(`${pTurn} turn`);
         console.log(playedGame.game.players[0]);
         console.log(`This user is ${userInfo.username}`);
         if (playedGame.game.players[pTurn] === userInfo.username) {
-          console.log("banana");
           gameTurn.innerText = "Your turn";
         } else {
           gameTurn.innerText = `${playedGame.game.players[pTurn]}'s turn`;
@@ -236,6 +239,7 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
         gameRow.appendChild(gameLink);
         gameRow.appendChild(gameOpponent);
         gameRow.appendChild(gameTurn);
+        gameRow.appendChild(gameStatus);
         gameLink.appendChild(gameBtn);
         gameTableBody.appendChild(gameRow);
       });

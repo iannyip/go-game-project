@@ -8,7 +8,12 @@ import {
   NewGameModal,
   renderUserDashboardElement,
 } from "./dashboardModule.js";
-import { updateGame, buildBoard, renderGameContainer } from "./gameModule.js";
+import {
+  updateGame,
+  passGame,
+  buildBoard,
+  renderGameContainer,
+} from "./gameModule.js";
 
 // Declare game state elements
 let currentGame = null;
@@ -32,6 +37,18 @@ const placePiece = (i, j) => {
     .catch((error) => console.log(error));
 };
 
+const passCB = () => {
+  const gameObj = {
+    gameId: currentGame.id,
+  };
+  passGame(gameObj)
+    .then((result) => {
+      currentGame = result.data;
+      renderGameView();
+    })
+    .catch((error) => console.log(error));
+};
+
 const renderGameView = () => {
   console.log("Rendering board. Checking currentGame: ");
   console.log(currentGame);
@@ -41,13 +58,14 @@ const renderGameView = () => {
   const gameViewContainer = renderGameContainer(
     currentGame,
     makeDashboard,
-    currentGameCallback
+    currentGameCallback,
+    passCB
   );
   mainContainer.appendChild(gameViewContainer);
 
   // Build board and append to boardContainer
   const newGoObj = new go(JSON.stringify(currentGame.game));
-  const builtBoard = buildBoard(newGoObj.field, placePiece);
+  const builtBoard = buildBoard(newGoObj.field, placePiece, currentGame.status);
   const boardContainer = document.getElementById("boardContainer");
   boardContainer.append(builtBoard);
 };
