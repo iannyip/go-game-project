@@ -82,6 +82,7 @@ export function NewGameModal(callbackFn) {
   const modalDiv = document.createElement("div");
   const modalDialogDiv = document.createElement("div");
   const modalContentDiv = document.createElement("div");
+  const modalTitle = document.createElement("h5");
   const modalHeaderDiv = document.createElement("div");
   const modalBodyDiv = document.createElement("div");
   const modalFooterDiv = document.createElement("div");
@@ -104,6 +105,7 @@ export function NewGameModal(callbackFn) {
   });
 
   // 4. Accompanying instructions
+  modalTitle.innerText = "Create New Game";
   words.innerText = "Choose your opponent";
   boardSelectText.innerText = "Select your board size";
   modalSubmit.innerText = "Create Game!";
@@ -115,6 +117,7 @@ export function NewGameModal(callbackFn) {
   modalDialogDiv.classList.add("modal-dialog");
   modalContentDiv.classList.add("modal-content");
   modalHeaderDiv.classList.add("modal-header");
+  modalTitle.classList.add("modal-title");
   modalBodyDiv.classList.add("modal-body");
   modalFooterDiv.classList.add("modal-footer");
   modalCloseBtn.classList.add("btn-close");
@@ -153,6 +156,7 @@ export function NewGameModal(callbackFn) {
   modalContentDiv.appendChild(modalHeaderDiv);
   modalContentDiv.appendChild(modalBodyDiv);
   modalContentDiv.appendChild(modalFooterDiv);
+  modalHeaderDiv.appendChild(modalTitle);
   modalHeaderDiv.appendChild(modalCloseBtn);
   modalFooterDiv.appendChild(modalSubmit);
   modalBodyDiv.appendChild(words);
