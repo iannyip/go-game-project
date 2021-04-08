@@ -10,6 +10,60 @@ export function newGameClick(gameInfoObj) {
   });
 }
 
+export function instructionModal() {
+  // 1. Clear any existing modals
+  const previousModal = document.getElementById("instructionModal");
+  if (previousModal) {
+    document.body.removeChild(previousModal);
+  }
+
+  // 2. Declare all the modal elements
+  const modalDiv = document.createElement("div");
+  const modalDialogDiv = document.createElement("div");
+  const modalContentDiv = document.createElement("div");
+  const modalHeaderDiv = document.createElement("div");
+  const modalBodyDiv = document.createElement("div");
+  const modalFooterDiv = document.createElement("div");
+  const modalCloseBtn = document.createElement("button");
+  const modalTitle = document.createElement("h5");
+  const gameRules = document.createElement("ol");
+
+  // 4. Accompanying instructions
+  modalTitle.innerText = "How to play GO";
+  gameRules.innerHTML = `
+  <li>Black goes first</li>
+  <li>Players take turns to place a stone of one's colour on an empty intersection on the board</li>
+  <li>Two consecutive passes end the game</li>
+  <li>The player with more area wins</li>
+  `;
+
+  // 5. Set attributes and classes of modal elements
+  modalDiv.setAttribute("tabindex", "-1");
+  modalDiv.id = "instructionModal";
+  modalDiv.classList.add("modal", "fade");
+  modalDialogDiv.classList.add("modal-dialog");
+  modalContentDiv.classList.add("modal-content");
+  modalHeaderDiv.classList.add("modal-header");
+  modalTitle.classList.add("modal-title");
+  modalBodyDiv.classList.add("modal-body");
+  modalFooterDiv.classList.add("modal-footer");
+  modalCloseBtn.classList.add("btn-close");
+  modalCloseBtn.setAttribute("data-bs-dismiss", "modal");
+
+  // 8. Append elements to form the modal form
+  modalDiv.appendChild(modalDialogDiv);
+  modalDialogDiv.appendChild(modalContentDiv);
+  modalContentDiv.appendChild(modalHeaderDiv);
+  modalContentDiv.appendChild(modalBodyDiv);
+  modalContentDiv.appendChild(modalFooterDiv);
+  modalHeaderDiv.appendChild(modalTitle);
+  modalHeaderDiv.appendChild(modalCloseBtn);
+  modalBodyDiv.appendChild(gameRules);
+
+  // 9. Return modal element
+  return modalDiv;
+}
+
 export function NewGameModal(callbackFn) {
   // 1. Clear any existing modals
   const previousModal = document.getElementById("newGameModal");
@@ -158,6 +212,7 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   const gameTableBody = document.createElement("tbody");
   const newGameBtn = document.createElement("button");
   const refreshPgBtn = document.createElement("button");
+  const instructionBtn = document.createElement("button");
 
   // 0.1. Add some styles
   gameTableHead.innerHTML = `<thead>
@@ -184,10 +239,14 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   gameTableBody.innerHTML = "";
 
   // 2. Add newGameBtn
-  newGameBtn.classList.add("btn", "btn-dark");
-  refreshPgBtn.classList.add("btn", "btn-dark");
+  [newGameBtn, refreshPgBtn, instructionBtn].forEach((button) => {
+    button.classList.add("btn", "btn-dark");
+    btnContainer.appendChild(button);
+  });
+
   newGameBtn.innerText = "New Game";
   refreshPgBtn.innerText = "Refresh Page";
+  instructionBtn.innerText = "How To Play";
   refreshPgBtn.addEventListener("click", () => {
     refreshCB();
   });
@@ -195,10 +254,10 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   // 3. Create modal (to create new game) and assign to newGameBtn
   newGameBtn.setAttribute("data-bs-toggle", "modal");
   newGameBtn.setAttribute("data-bs-target", "#newGameModal");
+  instructionBtn.setAttribute("data-bs-toggle", "modal");
+  instructionBtn.setAttribute("data-bs-target", "#instructionModal");
   NewGameModal();
   btnContainer.classList.add("btn-container", "d-grid", "gap-2");
-  btnContainer.appendChild(newGameBtn);
-  btnContainer.appendChild(refreshPgBtn);
 
   // 4. RIGHTCONTENT: Get the table of all ongoing games
   gameTable.classList.add("table");

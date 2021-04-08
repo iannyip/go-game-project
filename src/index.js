@@ -5,6 +5,7 @@ import { authUserLogin, renderLoginElements } from "./loginModule.js";
 import {
   getGame,
   newGameClick,
+  instructionModal,
   NewGameModal,
   renderUserDashboardElement,
 } from "./dashboardModule.js";
@@ -114,8 +115,10 @@ const makeDashboard = () => {
     refreshDashboardCB
   );
   const modalElement = NewGameModal(newGameCallback);
+  const instrModal = instructionModal();
   document.body.appendChild(dashboardElement);
   document.body.appendChild(modalElement);
+  document.body.appendChild(instrModal);
 };
 
 // LOGIN CALLBACK
