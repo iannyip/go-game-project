@@ -213,7 +213,7 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   const rightContent = document.createElement("div");
   const sidebarHeader = document.createElement("div");
   const btnContainer = document.createElement("div");
-  // const sidebarList = document.createElement("ul");
+  const gameCardsContainer = document.createElement("div");
   const gameTable = document.createElement("table");
   const gameTableHead = document.createElement("thead");
   const gameTableBody = document.createElement("tbody");
@@ -246,20 +246,18 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   // sidebarList.innerHTML = "";
   gameTableBody.innerHTML = "";
 
-  // 2. Add newGameBtn
+  // 2.1 Define BUTTONS in SIDEBAR
   [newGameBtn, refreshPgBtn, instructionBtn].forEach((button) => {
     button.classList.add("btn", "btn-dark");
     btnContainer.appendChild(button);
   });
-
   newGameBtn.innerText = "New Game";
   refreshPgBtn.innerText = "Refresh Page";
   instructionBtn.innerText = "How To Play";
   refreshPgBtn.addEventListener("click", () => {
     refreshCB();
   });
-
-  // 3. Create modal (to create new game) and assign to newGameBtn
+  // 2.2 BUTTONS with modals
   newGameBtn.setAttribute("data-bs-toggle", "modal");
   newGameBtn.setAttribute("data-bs-target", "#newGameModal");
   instructionBtn.setAttribute("data-bs-toggle", "modal");
@@ -267,17 +265,61 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   NewGameModal();
   btnContainer.classList.add("btn-container", "d-grid", "gap-2");
 
-  // 4. RIGHTCONTENT: Get the table of all ongoing games
+  // 3. RIGHTCONTENT: Get the table of all ongoing games
+  rightContent.classList.add("container");
+  gameCardsContainer.classList.add("row", "justify-content-around");
+
   gameTable.classList.add("table");
   gameTable.appendChild(gameTableHead);
   gameTable.appendChild(gameTableBody);
   rightContent.appendChild(gameTable);
+  rightContent.appendChild(gameCardsContainer);
   axios
     .get("/dashboard")
     .then((result) => {
       const userInfo = result.data;
       console.log(userInfo);
       userInfo.games.forEach((playedGame) => {
+        const pTurn = playedGame.game.gameState.moves.length % 2;
+
+        // CARD VERSION
+        const gameCard = document.createElement("div");
+        const gameCardNo = document.createElement("div");
+        const gameCardOpponent = document.createElement("div");
+        const gameCardTurn = document.createElement("div");
+        const gameCardStatus = document.createElement("div");
+        const gameCardBtn = document.createElement("button");
+        gameCard.classList.add(
+          "col-md-4",
+          "col-lg-2",
+          "game-card",
+          "rounded-3",
+          "zoom"
+        );
+
+        gameCardNo.innerText = playedGame.gameId;
+        gameCardOpponent.innerText = playedGame.opponent;
+        gameCardStatus.innerText = playedGame.game.status;
+        if (playedGame.game.players[pTurn] === userInfo.username) {
+          gameCardTurn.innerText = "Your turn";
+        } else {
+          gameCardTurn.innerText = `${playedGame.game.players[pTurn]}'s turn`;
+        }
+
+        gameCardBtn.classList.add("btn", "btn-secondary", "btn-sm");
+        gameCardBtn.innerText = "Link";
+        gameCardBtn.addEventListener("click", () => {
+          callbackFn(playedGame.gameId);
+        });
+
+        gameCard.appendChild(gameCardNo);
+        gameCard.appendChild(gameCardOpponent);
+        gameCard.appendChild(gameCardTurn);
+        gameCard.appendChild(gameCardStatus);
+        gameCard.appendChild(gameCardBtn);
+        gameCardsContainer.appendChild(gameCard);
+
+        // TABLE VERSION
         const gameRow = document.createElement("tr");
         const gameNo = document.createElement("th");
         const gameLink = document.createElement("td");
@@ -289,7 +331,6 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
         gameOpponent.innerText = playedGame.opponent;
         gameStatus.innerText = playedGame.game.status;
 
-        const pTurn = playedGame.game.gameState.moves.length % 2;
         console.log(`${pTurn} turn`);
         console.log(playedGame.game.players[0]);
         console.log(`This user is ${userInfo.username}`);

@@ -177,3 +177,17 @@ body {
 #instructionModal li {
   margin: 10px 0px;
 }
+
+.game-card {
+  border: 1px solid grey;
+  margin: 10px;
+  padding: 10px;
+}
+
+.zoom {
+  transition: transform 0.2s;
+}
+
+.zoom:hover {
+  transform: scale(1.05);
+}
