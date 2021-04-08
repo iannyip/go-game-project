@@ -259,3 +259,18 @@ body {
   bottom: 10px;
   z-index: -1;
 }
+
+.black-progress {
+  background-color: #1d1d1d;
+  color: whitesmoke;
+}
+
+.white-progress {
+  background-color: #dadada;
+  color: #131313;
+}
+
+.unoccupied-progress {
+  background-color: #ffd290;
+  color: #131313;
+}

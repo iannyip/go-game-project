@@ -73,6 +73,21 @@ const makePlayerDiv = (playerNo, currentGame) => {
   return playerCol;
 };
 
+const calculateArea = (boardArray, playerNo) => {
+  const boardLen = boardArray.length;
+  const boardArea = boardLen ** 2;
+  let score = 0;
+  for (let i = 0; i < boardLen; i += 1) {
+    for (let j = 0; j < boardLen; j += 1) {
+      if (Number(boardArray[i][j]) === Number(playerNo)) {
+        score += 1;
+      }
+    }
+  }
+  const scorePercent = score / boardArea;
+  return scorePercent;
+};
+
 export function renderGameContainer(
   currentGame,
   backBtnCB,
@@ -100,10 +115,16 @@ export function renderGameContainer(
   const passGameBtn = document.createElement("button");
   const replayBtn = document.createElement("button");
 
+  const percentRow = document.createElement("div");
+  const progressBar = document.createElement("div");
+  const whiteProgress = document.createElement("div");
+  const blackProgress = document.createElement("div");
+  const unoccupiedProgress = document.createElement("div");
+
   gameViewContainer.classList.add("row");
   buttonsRow.classList.add("justify-content-around");
-  [buttonsRow, gameMsgRow, playersRow].forEach((element) => {
-    element.classList.add("row", "my-4");
+  [buttonsRow, gameMsgRow, playersRow, percentRow].forEach((element) => {
+    element.classList.add("row", "my-3");
     gameInfoContainer.appendChild(element);
   });
 
@@ -155,6 +176,33 @@ export function renderGameContainer(
   backToDashboardBtn.innerText = "Back to Home";
   passGameBtn.innerText = "Pass";
   replayBtn.innerText = "Replay";
+
+  // Make Progress Bar here
+  const whiteValue = Math.round(calculateArea(newGoObj.field, 1) * 100);
+  const blackValue = Math.round(calculateArea(newGoObj.field, 0) * 100);
+  const unoccupiedValue = Math.round(calculateArea(newGoObj.field, -1) * 100);
+  [blackProgress, unoccupiedProgress, whiteProgress].forEach((item) => {
+    //
+    item.classList.add("progress-bar");
+    item.setAttribute("role", "progressbar");
+    progressBar.appendChild(item);
+  });
+  console.log(`%%%: ${whiteValue}, ${blackValue}, ${unoccupiedValue}`);
+  whiteProgress.style.width = `${whiteValue}%`;
+  whiteProgress.innerText = `${whiteValue}%`;
+  whiteProgress.classList.add("white-progress");
+  blackProgress.style.width = `${blackValue}%`;
+  blackProgress.innerText = `${blackValue}%`;
+  blackProgress.classList.add("black-progress");
+  unoccupiedProgress.style.width = `${unoccupiedValue}%`;
+  unoccupiedProgress.innerText = `${unoccupiedValue}%`;
+  unoccupiedProgress.classList.add("unoccupied-progress");
+
+  progressBar.classList.add("progress", "px-0");
+  progressBar.style.height = "40px";
+  percentRow.innerText = "Area occupied:";
+  percentRow.style.color = "#7f868d";
+  percentRow.appendChild(progressBar);
 
   // 4.2 Button event listeners
   backToDashboardBtn.addEventListener("click", () => {
