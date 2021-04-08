@@ -147,10 +147,13 @@ body {
 
 @media (max-width: 576px) {
   .wrapper {
-    flex-direction: row;
+    flex-direction: column;
   }
   #sidebar {
     min-width: 100vw;
+  }
+  .card-container {
+    justify-content: center;
   }
 }
 

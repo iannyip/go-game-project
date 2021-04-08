@@ -257,9 +257,14 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
 
   // 3. RIGHTCONTENT: Get the table of all ongoing games
   rightHeader.innerText = "Your Games";
+  rightHeader.classList.add("mt-4");
   rightContent.classList.add("container");
   rightHeaderLine.classList.add("my-4");
-  gameCardsContainer.classList.add("row", "justify-content-left");
+  gameCardsContainer.classList.add(
+    "row",
+    "justify-content-left",
+    "card-container"
+  );
   rightContent.appendChild(rightHeader);
   rightContent.appendChild(rightHeaderLine);
   rightContent.appendChild(gameCardsContainer);
@@ -280,6 +285,7 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
         const gameCardStatus = document.createElement("div");
         const gameCardBtn = document.createElement("button");
         gameCard.classList.add(
+          "col-11",
           "col-md-4",
           "col-lg-2",
           "game-card",
@@ -307,7 +313,7 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
           `status-${playedGame.game.status.toLowerCase()}`
         );
         if (gameCardStatus.innerText === "End") {
-          console.log("value is end");
+          gameCardBtn.innerText = "View";
         } else {
           if (playedGame.game.players[pTurn] === userInfo.username) {
             gameCardTurn.innerText = "Your turn";
