@@ -21,6 +21,30 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
       },
+      {
+        name: "akira",
+        password: "akirapassword",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        name: "zeph",
+        password: "zephpassword",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        name: "michelle",
+        password: "michellepassword",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        name: "jerome",
+        password: "jeromepassword",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
     ];
     await queryInterface.bulkInsert("users", userList);
     // const initialGame = {
