@@ -237,3 +237,25 @@ body {
 .zoom:hover {
   transform: scale(1.05);
 }
+
+.login-logo {
+  font-size: 70px;
+  font-family: "Monoton", sans-serif;
+  text-align: center;
+  position: relative;
+}
+
+.black-logo {
+  position: absolute;
+  font-size: 40px;
+  left: 100px;
+  top: 10px;
+  z-index: -1;
+}
+.white-logo {
+  position: absolute;
+  font-size: 30px;
+  right: 100px;
+  bottom: 10px;
+  z-index: -1;
+}
