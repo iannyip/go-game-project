@@ -1,18 +1,29 @@
 // Variables
 $number-of-boxes: 5;
-$border-thickness: 4px;
-$box-len: 100px;
+$border-thickness: 0.5%;
+$box-len: 20%;
+$border-len: 100%;
+// $border-thickness: 4px;
+// $box-len: 100px;
 
 body {
   background-color: rgb(243, 243, 243);
 }
 
 .board-5 {
-  $number-of-boxes: 5;
+  display: grid;
+  grid-template-columns: repeat(5, 100px);
+  grid-template-rows: repeat(5, 100px);
+  // $number-of-boxes: 5;
+  // $box-len: 100px;
 }
 
-.boar-7 {
-  $number-of-boxes: 7;
+.board-9 {
+  display: grid;
+  grid-template-columns: repeat(9, 50px);
+  grid-template-rows: repeat(9, 50px);
+  // $number-of-boxes: 9;
+  // $box-len: 100px;
 }
 
 .grid-display {
@@ -46,30 +57,30 @@ body {
 .v-f::before {
   background: black;
   content: "";
-  height: $box-len;
+  height: $border-len;
   width: $border-thickness;
   position: absolute;
   top: 0px;
-  left: ($box-len - $border-thickness) / 2;
+  left: ($border-len - $border-thickness) / 2;
 }
 
 .v-t::before {
   background: black;
   content: "";
-  height: $box-len / 2;
+  height: $border-len / 2;
   width: $border-thickness;
   position: absolute;
   top: 0px;
-  left: ($box-len - $border-thickness) / 2;
+  left: ($border-len - $border-thickness) / 2;
 }
 .v-b::before {
   background: black;
   content: "";
-  height: $box-len / 2;
+  height: $border-len / 2;
   width: $border-thickness;
   position: absolute;
-  top: $box-len / 2;
-  left: ($box-len - $border-thickness) / 2;
+  top: $border-len / 2;
+  left: ($border-len - $border-thickness) / 2;
 }
 
 .h-f::after {
@@ -78,8 +89,8 @@ body {
   height: $border-thickness;
   left: 0px;
   position: absolute;
-  top: ($box-len - $border-thickness) / 2;
-  width: $box-len;
+  top: ($border-len - $border-thickness) / 2;
+  width: $border-len;
 }
 
 .h-l::after {
@@ -88,18 +99,18 @@ body {
   height: $border-thickness;
   left: 0px;
   position: absolute;
-  top: ($box-len - $border-thickness) / 2;
-  width: $box-len / 2;
+  top: ($border-len - $border-thickness) / 2;
+  width: $border-len / 2;
 }
 
 .h-r::after {
   background: black;
   content: "";
   height: $border-thickness;
-  left: $box-len / 2;
+  left: $border-len / 2;
   position: absolute;
-  top: ($box-len - $border-thickness) / 2;
-  width: $box-len / 2;
+  top: ($border-len - $border-thickness) / 2;
+  width: $border-len / 2;
 }
 
 .game-msg {

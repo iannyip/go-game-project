@@ -15,8 +15,9 @@ export function passGame(gameObj) {
 
 export function buildBoard(boardArr, callbackFn, gameStatus) {
   const boardGrid = document.createElement("div");
-  boardGrid.classList.add("grid-display");
   const boardLen = boardArr.length;
+  boardGrid.classList.add(`board-${boardLen}`);
+  // "grid-display"
 
   for (let i = 0; i < boardLen; i += 1) {
     for (let j = 0; j < boardLen; j += 1) {
