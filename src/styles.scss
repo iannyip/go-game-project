@@ -182,6 +182,27 @@ body {
   border: 1px solid grey;
   margin: 10px;
   padding: 10px;
+  position: relative;
+}
+
+.game-card {
+  .card-no {
+    color: #7f868d;
+  }
+  .card-status {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+  .status-ongoing {
+    color: rgb(75, 168, 75);
+  }
+  .status-end {
+    color: #7f868d;
+  }
+  .status-pass {
+    color: orange;
+  }
 }
 
 .zoom {

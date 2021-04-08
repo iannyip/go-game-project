@@ -282,10 +282,15 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
           "rounded-3",
           "zoom"
         );
+        gameCardNo.classList.add("card-no");
+        gameCardStatus.classList.add("card-status");
 
-        gameCardNo.innerText = playedGame.gameId;
-        gameCardOpponent.innerText = playedGame.opponent;
+        gameCardNo.innerText = `Game #${playedGame.gameId}`;
+        gameCardOpponent.innerText = `vs ${playedGame.opponent}`;
         gameCardStatus.innerText = playedGame.game.status;
+        gameCardStatus.classList.add(
+          `status-${playedGame.game.status.toLowerCase()}`
+        );
         if (playedGame.game.players[pTurn] === userInfo.username) {
           gameCardTurn.innerText = "Your turn";
         } else {
