@@ -123,12 +123,14 @@ const createSidebarList = () => {
       sidebarItems.forEach((item) => {
         const itemTitleElement = document.createElement("li");
         const itemContentElement = document.createElement("li");
-        itemTitleElement.innerText = item;
+        if (item !== "user") {
+          itemTitleElement.innerText = item;
+        }
         itemContentElement.innerText = playerStats[item];
         itemContentElement.classList.add("player-stat");
         itemTitleElement.classList.add("h6");
-        sidebarList.appendChild(itemTitleElement);
         sidebarList.appendChild(itemContentElement);
+        sidebarList.appendChild(itemTitleElement);
       });
     })
     .catch((error) => {
