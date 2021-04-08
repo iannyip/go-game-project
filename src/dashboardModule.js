@@ -211,26 +211,14 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   const dashboardContainer = document.createElement("div");
   const sidebar = document.createElement("div");
   const rightContent = document.createElement("div");
+  const rightHeader = document.createElement("h1");
+  const rightHeaderLine = document.createElement("hr");
   const sidebarHeader = document.createElement("div");
   const btnContainer = document.createElement("div");
   const gameCardsContainer = document.createElement("div");
-  const gameTable = document.createElement("table");
-  const gameTableHead = document.createElement("thead");
-  const gameTableBody = document.createElement("tbody");
   const newGameBtn = document.createElement("button");
   const refreshPgBtn = document.createElement("button");
   const instructionBtn = document.createElement("button");
-
-  // 0.1. Add some styles
-  gameTableHead.innerHTML = `<thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Board</th>
-      <th scope="col">Opponent</th>
-      <th scope="col">Turn</th>
-      <th scope="col">Game Status</th>
-    </tr>
-  </thead>`;
 
   dashboardContainer.id = "dashboardContainer";
   dashboardContainer.classList.add("wrapper");
@@ -243,8 +231,6 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
 
   // 1. Clear the view
   dashboardContainer.innerHTML = "";
-  // sidebarList.innerHTML = "";
-  gameTableBody.innerHTML = "";
 
   // 2.1 Define BUTTONS in SIDEBAR
   [newGameBtn, refreshPgBtn, instructionBtn].forEach((button) => {
@@ -266,14 +252,14 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   btnContainer.classList.add("btn-container", "d-grid", "gap-2");
 
   // 3. RIGHTCONTENT: Get the table of all ongoing games
+  rightHeader.innerText = "Your Games";
   rightContent.classList.add("container");
+  rightHeaderLine.classList.add("my-4");
   gameCardsContainer.classList.add("row", "justify-content-around");
-
-  gameTable.classList.add("table");
-  gameTable.appendChild(gameTableHead);
-  gameTable.appendChild(gameTableBody);
-  rightContent.appendChild(gameTable);
+  rightContent.appendChild(rightHeader);
+  rightContent.appendChild(rightHeaderLine);
   rightContent.appendChild(gameCardsContainer);
+
   axios
     .get("/dashboard")
     .then((result) => {
@@ -318,42 +304,6 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
         gameCard.appendChild(gameCardStatus);
         gameCard.appendChild(gameCardBtn);
         gameCardsContainer.appendChild(gameCard);
-
-        // TABLE VERSION
-        const gameRow = document.createElement("tr");
-        const gameNo = document.createElement("th");
-        const gameLink = document.createElement("td");
-        const gameOpponent = document.createElement("td");
-        const gameTurn = document.createElement("td");
-        const gameStatus = document.createElement("td");
-        const gameBtn = document.createElement("button");
-        gameNo.innerText = playedGame.gameId;
-        gameOpponent.innerText = playedGame.opponent;
-        gameStatus.innerText = playedGame.game.status;
-
-        console.log(`${pTurn} turn`);
-        console.log(playedGame.game.players[0]);
-        console.log(`This user is ${userInfo.username}`);
-        if (playedGame.game.players[pTurn] === userInfo.username) {
-          gameTurn.innerText = "Your turn";
-        } else {
-          gameTurn.innerText = `${playedGame.game.players[pTurn]}'s turn`;
-        }
-
-        gameBtn.classList.add("btn", "btn-secondary", "btn-sm");
-        gameBtn.innerText = "Link";
-        gameBtn.addEventListener("click", () => {
-          callbackFn(playedGame.gameId);
-        });
-
-        // Append items to the same row
-        gameRow.appendChild(gameNo);
-        gameRow.appendChild(gameLink);
-        gameRow.appendChild(gameOpponent);
-        gameRow.appendChild(gameTurn);
-        gameRow.appendChild(gameStatus);
-        gameLink.appendChild(gameBtn);
-        gameTableBody.appendChild(gameRow);
       });
     })
     .catch((error) => console.log(error));
