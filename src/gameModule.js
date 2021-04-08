@@ -143,7 +143,9 @@ export function renderGameContainer(
         "btn",
         "btn-outline-dark",
         "btn-sm",
-        "col-sm-2",
+        "col-lg-2",
+        "col-sm-5",
+        "col-12",
         "my-2"
       );
       buttonsRow.appendChild(button);
