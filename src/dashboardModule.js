@@ -255,7 +255,7 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   rightHeader.innerText = "Your Games";
   rightContent.classList.add("container");
   rightHeaderLine.classList.add("my-4");
-  gameCardsContainer.classList.add("row", "justify-content-around");
+  gameCardsContainer.classList.add("row", "justify-content-left");
   rightContent.appendChild(rightHeader);
   rightContent.appendChild(rightHeaderLine);
   rightContent.appendChild(gameCardsContainer);
@@ -285,30 +285,37 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
         gameCardNo.classList.add("card-no");
         gameCardStatus.classList.add("card-status");
 
-        gameCardNo.innerText = `Game #${playedGame.gameId}`;
-        gameCardOpponent.innerHTML = `${playedGame.opponent}`;
-        gameCardStatus.innerText = playedGame.game.status;
-        gameCardStatus.classList.add(
-          `status-${playedGame.game.status.toLowerCase()}`
-        );
-        if (playedGame.game.players[pTurn] === userInfo.username) {
-          gameCardTurn.innerText = "Your turn";
-        } else {
-          gameCardTurn.innerText = `${playedGame.game.players[pTurn]}'s turn`;
-        }
-        gameCardTurn.classList.add("game-turn");
-        gameCardOpponent.classList.add("game-opponent");
-
         gameCardBtn.classList.add(
           "btn",
           "btn-secondary",
           "btn-sm",
           "board-link"
         );
-        gameCardBtn.innerText = "Link";
+        gameCardBtn.innerText = "Go";
         gameCardBtn.addEventListener("click", () => {
           callbackFn(playedGame.gameId);
         });
+
+        gameCardNo.innerText = `Game #${playedGame.gameId}`;
+        gameCardOpponent.innerHTML = `${playedGame.opponent}`;
+        gameCardStatus.innerText = playedGame.game.status;
+        gameCardStatus.classList.add(
+          `status-${playedGame.game.status.toLowerCase()}`
+        );
+        if (gameCardStatus.innerText === "End") {
+          console.log("value is end");
+        } else {
+          if (playedGame.game.players[pTurn] === userInfo.username) {
+            gameCardTurn.innerText = "Your turn";
+            gameCardBtn.classList.add("btn-success");
+          } else {
+            gameCardTurn.innerText = `${playedGame.game.players[pTurn]}'s turn`;
+            gameCardBtn.classList.add("btn-danger");
+          }
+        }
+
+        gameCardTurn.classList.add("game-turn");
+        gameCardOpponent.classList.add("game-opponent");
 
         gameCard.appendChild(gameCardNo);
         gameCard.appendChild(gameCardOpponent);
