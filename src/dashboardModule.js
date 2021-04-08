@@ -27,6 +27,7 @@ export function instructionModal() {
   const modalCloseBtn = document.createElement("button");
   const modalTitle = document.createElement("h5");
   const gameRules = document.createElement("ol");
+  const moreInfoLink = document.createElement("p");
 
   // 4. Accompanying instructions
   modalTitle.innerText = "How to play GO";
@@ -35,6 +36,11 @@ export function instructionModal() {
   <li>Players take turns to place a stone of one's colour on an empty intersection on the board</li>
   <li>Two consecutive passes end the game</li>
   <li>The player with more area wins</li>
+  `;
+  moreInfoLink.innerHTML = `
+  <i>
+  Read the full rules on <a href="https://en.wikipedia.org/wiki/Rules_of_Go" target="_blank" >wikipedia</a>
+  </i>
   `;
 
   // 5. Set attributes and classes of modal elements
@@ -59,6 +65,7 @@ export function instructionModal() {
   modalHeaderDiv.appendChild(modalTitle);
   modalHeaderDiv.appendChild(modalCloseBtn);
   modalBodyDiv.appendChild(gameRules);
+  modalBodyDiv.appendChild(moreInfoLink);
 
   // 9. Return modal element
   return modalDiv;
