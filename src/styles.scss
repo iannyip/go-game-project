@@ -14,37 +14,37 @@ body {
   display: grid;
   grid-template-columns: repeat(5, 100px);
   grid-template-rows: repeat(5, 100px);
-  font-size: 100%;
+  font-size: 100px;
 }
 .board-9 {
   display: grid;
   grid-template-columns: repeat(9, 70px);
   grid-template-rows: repeat(9, 70px);
-  font-size: 100%;
+  font-size: 70px;
 }
 .board-13 {
   display: grid;
   grid-template-columns: repeat(13, 50px);
   grid-template-rows: repeat(13, 50px);
-  font-size: 100%;
+  font-size: 50px;
 }
 .board-17 {
   display: grid;
   grid-template-columns: repeat(17, 40px);
   grid-template-rows: repeat(17, 40px);
-  font-size: 100%;
+  font-size: 50px;
 }
 .board-19 {
   display: grid;
-  grid-template-columns: repeat(19, 30px);
-  grid-template-rows: repeat(19, 30px);
-  font-size: 100%;
+  grid-template-columns: repeat(19, 40px);
+  grid-template-rows: repeat(19, 40px);
+  font-size: 50px;
 }
 .board-21 {
   display: grid;
-  grid-template-columns: repeat(21, 30px);
-  grid-template-rows: repeat(21, 30px);
-  font-size: 100%;
+  grid-template-columns: repeat(21, 35px);
+  grid-template-rows: repeat(21, 35px);
+  font-size: 45px;
 }
 
 .grid-display {
@@ -65,7 +65,7 @@ body {
 }
 
 .piece {
-  font-size: 3em;
+  font-size: 0.5em;
   z-index: 1;
 }
 
