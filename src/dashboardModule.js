@@ -286,7 +286,7 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
         gameCardStatus.classList.add("card-status");
 
         gameCardNo.innerText = `Game #${playedGame.gameId}`;
-        gameCardOpponent.innerText = `vs ${playedGame.opponent}`;
+        gameCardOpponent.innerHTML = `${playedGame.opponent}`;
         gameCardStatus.innerText = playedGame.game.status;
         gameCardStatus.classList.add(
           `status-${playedGame.game.status.toLowerCase()}`
@@ -296,8 +296,15 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
         } else {
           gameCardTurn.innerText = `${playedGame.game.players[pTurn]}'s turn`;
         }
+        gameCardTurn.classList.add("game-turn");
+        gameCardOpponent.classList.add("game-opponent");
 
-        gameCardBtn.classList.add("btn", "btn-secondary", "btn-sm");
+        gameCardBtn.classList.add(
+          "btn",
+          "btn-secondary",
+          "btn-sm",
+          "board-link"
+        );
         gameCardBtn.innerText = "Link";
         gameCardBtn.addEventListener("click", () => {
           callbackFn(playedGame.gameId);

@@ -203,6 +203,21 @@ body {
   .status-pass {
     color: orange;
   }
+  .board-link {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+  .game-turn {
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: #72777c;
+    min-width: 160px;
+  }
+  .game-opponent {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
 }
 
 .zoom {
