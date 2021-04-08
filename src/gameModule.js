@@ -93,6 +93,7 @@ export function renderGameContainer(
   const gameInfoContainer = document.createElement("div");
   const buttonsRow = document.createElement("div");
   const gameMsgRow = document.createElement("div");
+  const gameMsgText = document.createElement("p");
   const playersRow = document.createElement("div");
   const backToDashboardBtn = document.createElement("button");
   const refreshGameBtn = document.createElement("button");
@@ -115,15 +116,18 @@ export function renderGameContainer(
   const whitePlayer = makePlayerDiv(1, currentGame);
   playersRow.appendChild(blackPlayer);
   playersRow.appendChild(whitePlayer);
+
+  gameMsgRow.appendChild(gameMsgText);
+  gameMsgText.classList.add("lead", "text-center", "game-msg");
   if (nextPlayer === 0 || currentGame.game.moves[0].score === null) {
-    gameMsgRow.innerText = "Black to move";
+    gameMsgText.innerText = "Black to move";
   } else {
-    gameMsgRow.innerText = "White to move";
+    gameMsgText.innerText = "White to move";
   }
   if (currentGame.status === "End") {
-    gameMsgRow.innerText = "Both players passed. Game has ended";
+    gameMsgText.innerText = "Both players passed. Game has ended";
   } else if (currentGame.status === "Pass") {
-    gameMsgRow.innerText += ". Previous player passed";
+    gameMsgText.innerText += ". Previous player passed";
   }
   // 3. Make the page view outline
   [boardContainer, gameInfoContainer].forEach((element) => {

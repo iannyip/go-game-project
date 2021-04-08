@@ -102,6 +102,12 @@ body {
   width: $box-len / 2;
 }
 
+.game-msg {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
 .wrapper {
   display: flex;
   flex-direction: row;
