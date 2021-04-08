@@ -4,49 +4,61 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const userList = [
       {
-        name: "yettie",
-        password: "nsMAC8cgG",
+        name: 'yettie',
+        password: 'nsMAC8cgG',
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        name: "tybi",
-        password: "tybipassword",
+        name: 'tybi',
+        password: 'tybipassword',
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        name: "kai",
-        password: "kaipassword",
+        name: 'kai',
+        password: 'kaipassword',
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        name: "akira",
-        password: "akirapassword",
+        name: 'akira',
+        password: 'akirapassword',
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        name: "zeph",
-        password: "zephpassword",
+        name: 'zeph',
+        password: 'zephpassword',
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        name: "michelle",
-        password: "michellepassword",
+        name: 'michelle',
+        password: 'michellepassword',
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
-        name: "jerome",
-        password: "jeromepassword",
+        name: 'jerome',
+        password: 'jeromepassword',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        name: 'ian',
+        password: 'ianpassword',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        name: 'corn',
+        password: 'cornpassword',
         created_at: new Date(),
         updated_at: new Date(),
       },
     ];
-    await queryInterface.bulkInsert("users", userList);
+    await queryInterface.bulkInsert('users', userList);
     // const initialGame = {
     //   players: { white: 1, black: 0 },
     //   moves: [],
@@ -85,7 +97,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete("users", null, {});
+    await queryInterface.bulkDelete('users', null, {});
     // await queryInterface.bulkDelete("games", null, {});
     // await queryInterface.bulkDelete("game_users", null, {});
   },
