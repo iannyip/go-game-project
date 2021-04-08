@@ -151,6 +151,7 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   const sidebar = document.createElement("div");
   const rightContent = document.createElement("div");
   const sidebarHeader = document.createElement("div");
+  const btnContainer = document.createElement("div");
   // const sidebarList = document.createElement("ul");
   const gameTable = document.createElement("table");
   const gameTableHead = document.createElement("thead");
@@ -183,10 +184,10 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   gameTableBody.innerHTML = "";
 
   // 2. Add newGameBtn
-  newGameBtn.classList.add("btn", "btn-primary");
-  refreshPgBtn.classList.add("btn", "btn-primary");
-  newGameBtn.innerText = "Create new game";
-  refreshPgBtn.innerText = "Refresh page";
+  newGameBtn.classList.add("btn", "btn-dark");
+  refreshPgBtn.classList.add("btn", "btn-dark");
+  newGameBtn.innerText = "New Game";
+  refreshPgBtn.innerText = "Refresh Page";
   refreshPgBtn.addEventListener("click", () => {
     refreshCB();
   });
@@ -195,8 +196,9 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   newGameBtn.setAttribute("data-bs-toggle", "modal");
   newGameBtn.setAttribute("data-bs-target", "#newGameModal");
   NewGameModal();
-  rightContent.appendChild(newGameBtn);
-  rightContent.appendChild(refreshPgBtn);
+  btnContainer.classList.add("btn-container", "d-grid", "gap-2");
+  btnContainer.appendChild(newGameBtn);
+  btnContainer.appendChild(refreshPgBtn);
 
   // 4. RIGHTCONTENT: Get the table of all ongoing games
   gameTable.classList.add("table");
@@ -255,6 +257,7 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   dashboardContainer.appendChild(sidebar);
   dashboardContainer.appendChild(rightContent);
   sidebar.appendChild(sidebarHeader);
+  sidebar.appendChild(btnContainer);
   sidebar.appendChild(sidebarList);
 
   // 7. Pass the element back to user

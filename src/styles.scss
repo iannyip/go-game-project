@@ -113,8 +113,9 @@ body {
   min-width: 250px;
   max-width: 250px;
   min-height: 100vh;
-  background: #7386d5;
+  background: #212529;
   color: #fff;
+  text-align: center;
 }
 
 #content {
@@ -122,11 +123,11 @@ body {
 
 #sidebar .sidebar-header {
   padding: 20px;
-  background: #6d7fcc;
+  background: #212529;
 }
 #sidebar ul.components {
-  padding: 20px 0;
-  border-bottom: 1px solid #47748b;
+  padding: 10px 0;
+  // border-bottom: 1px solid #47748b;
 }
 
 #sidebar ul li {
@@ -164,4 +165,8 @@ body {
     font-size: 1em;
     margin: 0px;
   }
+}
+
+#sidebar .btn-container {
+  margin-top: 30px;
 }
