@@ -123,7 +123,10 @@ body {
 
 #sidebar .sidebar-header {
   padding: 20px;
-  background: #212529;
+  // background: #3b424a;
+  background-image: linear-gradient(to bottom, #666f79, #212529);
+  font-size: 30px;
+  font-family: "Monoton", sans-serif;
 }
 #sidebar ul.components {
   padding: 10px 0;
@@ -168,7 +171,7 @@ body {
 }
 
 #sidebar .btn-container {
-  margin: 30px 0px;
+  margin-bottom: 20px;
 }
 
 #instructionModal li {

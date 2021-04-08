@@ -235,7 +235,8 @@ export function renderUserDashboardElement(callbackFn, refreshCB) {
   dashboardContainer.id = "dashboardContainer";
   dashboardContainer.classList.add("wrapper");
 
-  sidebarHeader.innerText = "Play GO!";
+  sidebarHeader.innerText = "GO";
+  sidebarHeader.classList.add("sidebar-header");
   // sidebarList.classList.add("list-unstyled", "components");
   sidebar.id = "sidebar";
   rightContent.id = "content";
