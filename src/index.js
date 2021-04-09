@@ -1,27 +1,26 @@
-import "./styles.scss";
-import axios from "axios";
-import go from "go-game";
-import { authUserLogin, renderLoginElements } from "./loginModule.js";
+import './styles.scss';
+import go from 'go-game';
+import { authUserLogin, renderLoginElements } from './loginModule.js';
 import {
   getGame,
   newGameClick,
   instructionModal,
   NewGameModal,
   renderUserDashboardElement,
-} from "./dashboardModule.js";
+} from './dashboardModule.js';
 import {
   updateGame,
   passGame,
   buildBoard,
   renderGameContainer,
-} from "./gameModule.js";
+} from './gameModule.js';
 
 // Declare game state elements
 let currentGame = null;
 
 // Get Main Container Element
-const mainContainer = document.getElementById("mainContainer");
-mainContainer.classList.add("container");
+const mainContainer = document.getElementById('mainContainer');
+mainContainer.classList.add('container');
 
 // GAME CALLBACKS
 const placePiece = (i, j) => {
@@ -51,16 +50,28 @@ const passCB = () => {
 };
 
 const runGame = (arr) => {
-  const boardContainer = document.getElementById("boardContainer");
-  boardContainer.innerHTML = "";
-  const replayBoard = buildBoard(arr, placePiece, "replay");
+  const boardContainer = document.getElementById('boardContainer');
+  boardContainer.innerHTML = '';
+  const replayBoard = buildBoard(arr, placePiece, 'replay');
   boardContainer.append(replayBoard);
 };
 
+const clearModals = () => {
+  const previousNewGameModal = document.getElementById('newGameModal');
+  if (previousNewGameModal) {
+    document.body.removeChild(previousNewGameModal);
+  }
+  const previousInstructionModal = document.getElementById('instructionModal');
+  if (previousInstructionModal) {
+    document.body.removeChild(previousInstructionModal);
+  }
+};
+
 const renderGameView = () => {
-  console.log("Rendering board. Checking currentGame: ");
+  console.log('Rendering board. Checking currentGame: ');
+  clearModals();
   console.log(currentGame);
-  mainContainer.innerHTML = "";
+  mainContainer.innerHTML = '';
 
   // Append main game container (gameViewContainer)
   const gameViewContainer = renderGameContainer(
@@ -68,22 +79,22 @@ const renderGameView = () => {
     makeDashboard,
     currentGameCallback,
     passCB,
-    runGame
+    runGame,
   );
   mainContainer.appendChild(gameViewContainer);
 
   // Build board and append to boardContainer
   const newGoObj = new go(JSON.stringify(currentGame.game));
   const builtBoard = buildBoard(newGoObj.field, placePiece, currentGame.status);
-  const boardContainer = document.getElementById("boardContainer");
+  const boardContainer = document.getElementById('boardContainer');
   boardContainer.append(builtBoard);
 };
 
 // DASHBOARD CALLBACKS
 const newGameCallback = () => {
   const newGameInfo = {
-    opponent: document.getElementById("opponentInput").value,
-    board: document.getElementById("boardSizeInput").value,
+    opponent: document.getElementById('opponentInput').value,
+    board: document.getElementById('boardSizeInput').value,
   };
   newGameClick(newGameInfo)
     .then((result) => {
@@ -109,10 +120,10 @@ const refreshDashboardCB = () => {
 };
 
 const makeDashboard = () => {
-  mainContainer.innerHTML = "";
+  mainContainer.innerHTML = '';
   const dashboardElement = renderUserDashboardElement(
     currentGameCallback,
-    refreshDashboardCB
+    refreshDashboardCB,
   );
   const modalElement = NewGameModal(newGameCallback);
   const instrModal = instructionModal();
@@ -123,11 +134,11 @@ const makeDashboard = () => {
 
 // LOGIN CALLBACK
 const loginClickCallback = () => {
-  const name = document.getElementById("Username").value;
-  const password = document.getElementById("Password").value;
+  const name = document.getElementById('Username').value;
+  const password = document.getElementById('Password').value;
   authUserLogin(name, password)
     .then((result) => {
-      if (result.data === "valid user") {
+      if (result.data === 'valid user') {
         makeDashboard();
       } else {
         // renderLoginView();
@@ -140,7 +151,7 @@ const loginClickCallback = () => {
 const main = () => {
   // Create the login view
   const loginContainer = renderLoginElements(loginClickCallback);
-  mainContainer.innerHTML = "";
+  mainContainer.innerHTML = '';
   mainContainer.appendChild(loginContainer);
 };
 
