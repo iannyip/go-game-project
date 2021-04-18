@@ -1,11 +1,12 @@
-import { resolve } from "path";
-import pkg from "sequelize";
+import { resolve } from 'path';
+import pkg from 'sequelize';
+
 const { Op } = pkg;
 
 export default function initUsersController(db) {
   const root = (request, response) => {
     // response.render("../dist/main.html");
-    response.sendFile(resolve("dist", "main.html"));
+    response.sendFile(resolve('dist', 'main.html'));
   };
 
   const single = async (request, response) => {
@@ -37,10 +38,10 @@ export default function initUsersController(db) {
     try {
       const authedUser = await db.User.findOne({ where: request.body });
       if (authedUser === null) {
-        response.send("invalid user");
+        response.send('invalid user');
       } else {
-        response.cookie("userId", authedUser.id);
-        response.send("valid user");
+        response.cookie('userId', authedUser.id);
+        response.send('valid user');
       }
     } catch (error) {
       console.log(error);
@@ -65,14 +66,14 @@ export default function initUsersController(db) {
       });
       playedGames = playedGames.toJSON();
       playedGames.gameUsers.forEach((gameItem) => {
-        if (gameItem.game.players !== "") {
+        if (gameItem.game.players !== '') {
           let opponentName;
           if (gameItem.game.players[0] === playedGames.name) {
             opponentName = gameItem.game.players[1];
           } else {
             opponentName = gameItem.game.players[0];
           }
-          gameItem["opponent"] = opponentName;
+          gameItem.opponent = opponentName;
         }
       });
       const result = {
@@ -98,16 +99,16 @@ export default function initUsersController(db) {
     });
     const countWins = await db.User.count({
       where: { id: userId },
-      include: [{ model: db.GameUser, where: { outcome: "Win" } }],
+      include: [{ model: db.GameUser, where: { outcome: 'Win' } }],
     });
     const countLose = await db.User.count({
       where: { id: userId },
-      include: [{ model: db.GameUser, where: { outcome: "Lose" } }],
+      include: [{ model: db.GameUser, where: { outcome: 'Lose' } }],
     });
 
     const result = {
       user: user.name,
-      games: countOngoing,
+      ongoing: countOngoing,
       wins: countWins,
       lose: countLose,
     };

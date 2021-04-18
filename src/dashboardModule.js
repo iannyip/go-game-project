@@ -185,7 +185,7 @@ const createSidebarList = () => {
       const playerStats = result.data;
       console.log(playerStats);
 
-      const sidebarItems = ['user', 'games', 'wins', 'lose'];
+      const sidebarItems = ['user', 'ongoing', 'wins', 'lose'];
       sidebarItems.forEach((item) => {
         const itemTitleElement = document.createElement('li');
         const itemContentElement = document.createElement('li');
