@@ -1,5 +1,10 @@
 # Project 3: Go game project
 
+Classic multiplayer game of go / weiqi.
+
+<img width="1711" alt="image" src="https://github.com/user-attachments/assets/5be09daa-0c17-4953-aea7-837da1da8930">
+
+
 ## Features
 
 - Players take turn to place a piece on a board in a classic game of GO/ WeiQi
