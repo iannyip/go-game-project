@@ -1,6 +1,6 @@
 module.exports = {
   development: {
-    username: 'iannyip',
+    username: 'ianyip',
     password: null,
     database: 'go_development',
     host: '127.0.0.1',
